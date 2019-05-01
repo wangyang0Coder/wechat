@@ -9,25 +9,25 @@ import java.util.List;
  */
 public class UserInfo {
 
-    private String userId;
+    private long userId;
     private String userName;
     private String password;
     private String avatarUrl;
     private List<UserInfo> friendList;
     private List<GroupInfo> groupList;
 
-    public UserInfo(String userId, String userName, String password, String avatarUrl) {
+    /*public UserInfo(int userId, String userName, String password, String avatarUrl) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.avatarUrl = avatarUrl;
-    }
+    }*/
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -69,5 +69,10 @@ public class UserInfo {
 
     public void setGroupList(List<GroupInfo> groupList) {
         this.groupList = groupList;
+    }
+
+    @Override
+    public String toString() {
+        return this.userId+" "+this.userName;
     }
 }
