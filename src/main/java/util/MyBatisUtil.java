@@ -44,7 +44,6 @@ public class MyBatisUtil {
         这个原因是因为mybatis默认不是自动提交事务的, 所以其实没有修改数据库,
         刚刚新增完后立即返回的结果,是从mybatis为了提高性能设置的缓存里读取的,不是从数据库读取的
         解决的办法一是在openSession() 的括号里写true, 设定自动提交事务, 一是在代码中加入sqlSession.commit()
-        解决博客
         原文：https://blog.csdn.net/howard789/article/details/77801892
     */
 }

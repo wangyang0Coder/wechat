@@ -9,23 +9,27 @@ import java.util.List;
  */
 public class GroupInfo {
 
-    private String groupId;
+    private long groupId;
     private String groupName;
     private String groupAvatarUrl;
     private List<UserInfo> members;
 
-    public GroupInfo(String groupId, String groupName, String groupAvatarUrl, List<UserInfo> members) {
+    public GroupInfo(long groupId, String groupName, String groupAvatarUrl, List<UserInfo> members) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.groupAvatarUrl = groupAvatarUrl;
         this.members = members;
     }
 
-    public String getGroupId() {
+    public GroupInfo() {
+
+    }
+
+    public long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(long groupId) {
         this.groupId = groupId;
     }
 
@@ -51,5 +55,10 @@ public class GroupInfo {
 
     public void setMembers(List<UserInfo> members) {
         this.members = members;
+    }
+
+    @Override
+    public String toString() {
+        return this.groupId+" "+this.groupName;
     }
 }
