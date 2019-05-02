@@ -16,7 +16,9 @@ import java.util.List;
 public interface BelongMapper {
     @Select("select * from belong where groupid=#{groupid}")
     @Results({
-            @Result(property = "userInfo",column = "userId",one = @One(select = "model.mapper.UserInfoMapper.get"))
+            @Result(property = "userInfo",column = "userId",one = @One(select = "model.mapper.UserInfoMapper.get")),
+            //column是执行one = @One(select = "model.mapper.UserInfoMapper.get"))的传入
+            @Result(property = "groupInfo",column = "groupId",one = @One(select = "model.mapper.GroupInfoMapper.get"))
     })
     public List<Belong> listByGroupId(int groupid);
 }

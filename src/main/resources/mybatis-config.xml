@@ -30,6 +30,5 @@
         <mapper class="model.mapper.UserInfoMapper"/>
         <mapper class="model.mapper.BelongMapper"/>
         <mapper class="model.mapper.GroupInfoMapper"/>
-
     </mappers>
 </configuration>
