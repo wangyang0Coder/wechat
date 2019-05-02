@@ -24,7 +24,7 @@ public interface UserInfoMapper {
     @Delete("delete from user where userId= #{id}")
     void delete(long id);
 
-    @Select("select * from user where  userId=#{id}")
+    @Select("select * from user where userId=#{id}")
     UserInfo get(long id);
 
     @Select("select * from user")

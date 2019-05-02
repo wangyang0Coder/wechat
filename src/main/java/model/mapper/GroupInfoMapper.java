@@ -1,10 +1,7 @@
 package model.mapper;
 
 import model.po.GroupInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -27,5 +24,10 @@ public interface GroupInfoMapper {
     GroupInfo get(long id);
 
     @Select("select * from group_")
+        @Results({
+                @Result(property = "groupId",column = "groupId"),
+                @Result(property = "members",javaType =List.class,column ="groupId",
+                        many =@Many(select = "model.mapper.BelongMapper.listByGroupId"))
+        })
     List<GroupInfo> listAll();
 }

@@ -12,14 +12,8 @@ public class GroupInfo {
     private long groupId;
     private String groupName;
     private String groupAvatarUrl;
-    private List<UserInfo> members;
+    private List<Belong> members;
 
-    public GroupInfo(long groupId, String groupName, String groupAvatarUrl, List<UserInfo> members) {
-        this.groupId = groupId;
-        this.groupName = groupName;
-        this.groupAvatarUrl = groupAvatarUrl;
-        this.members = members;
-    }
 
     public GroupInfo() {
 
@@ -49,11 +43,11 @@ public class GroupInfo {
         this.groupAvatarUrl = groupAvatarUrl;
     }
 
-    public List<UserInfo> getMembers() {
+    public List<Belong> getMembers() {
         return members;
     }
 
-    public void setMembers(List<UserInfo> members) {
+    public void setMembers(List<Belong> members) {
         this.members = members;
     }
 
