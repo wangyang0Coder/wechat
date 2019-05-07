@@ -9,7 +9,7 @@
 		}
 
 		if(window.WebSocket){
-			socket = new WebSocket("ws://localhost:8888/wechat");
+			socket = new WebSocket("ws://localhost:3333");
 			socket.onmessage = function(event){
 				var ta = document.getElementById('responseContent');
 				ta.value += event.data + "\r\n";

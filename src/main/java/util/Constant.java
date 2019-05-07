@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
 public class Constant {
     public static final String USER_TOKEN="userId";
 
-    public static Map<String,WebSocketServerHandshaker>  webSocketServerHandshaker=
+    public static Map<String,WebSocketServerHandshaker>  webSocketHandshakerMap=
             new ConcurrentHashMap<String, WebSocketServerHandshaker>();
 
     public static Map<String,ChannelHandlerContext> onlineUserMap=

@@ -27,7 +27,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
-            //优雅的退出程序
+            //退出程序
             bossGroup.shutdownGracefully();
             workGroup.shutdownGracefully();
         }
