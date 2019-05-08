@@ -58,7 +58,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         // 客服端发送过来的消息
         String request = ((TextWebSocketFrame)frame).text();
         logger.info("服务端收到新信息：" + request);
-        JSONObject param = null;
+        /*JSONObject param = null;
         try {
             param = JSONObject.parseObject(request);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         if (param == null) {
             sendErrorMessage(ctx, "参数为空！");
             return;
-        }
+        }*/
     }
     private void sendErrorMessage(ChannelHandlerContext ctx, String errorMsg) {
         String responseJson = new ResponseJson()

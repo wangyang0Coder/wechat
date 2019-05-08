@@ -9,8 +9,6 @@
 
     <!-- 扫描关于Netty Websocket的包 -->
     <context:component-scan base-package="web.websocket"/>
-    
-    <!-- 把Netty的一些类服务器注册到Spring，方便处理和扩展 -->
     <!-- 用于处理客户端连接请求 -->
 	<bean id="bossGroup" class="io.netty.channel.nio.NioEventLoopGroup"/>
 	<!-- 用于处理客户端I/O操作 -->

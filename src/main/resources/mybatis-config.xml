@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!-- 根标签 -->
 <configuration>
-    <properties resource="db.properties"></properties>
+    <properties resource="jdbc.properties"></properties>
     <!-- 类型别名-->
     <typeAliases>
         <package name="model.po"/>
@@ -26,7 +26,7 @@
         </environment>
     </environments>
     <mappers>
-        <!--<mapper resource="model/mapper/UserInfoMapper.xml"/>-->
+        <!--<mapper resource="mapper/UserInfoMapper.xml"/>-->
         <mapper class="model.mapper.UserInfoMapper"/>
         <mapper class="model.mapper.BelongMapper"/>
         <mapper class="model.mapper.GroupInfoMapper"/>

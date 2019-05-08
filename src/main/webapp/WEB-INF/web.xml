@@ -6,6 +6,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee">
     <display-name>wechat</display-name>
+
+    <!-- spring的配置文件-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:applicationContext.xml
+            classpath:applicationContext-netty.xml
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!-- spring mvc核心：分发servlet -->
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- spring mvc的配置文件 -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:SpringMVC.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
     <filter>
       <filter-name>encodingFilter</filter-name>
       <filter-class>org.springframework.web.filter.CharacterEncodingFilter
@@ -23,32 +51,5 @@
       <filter-name>encodingFilter</filter-name>
       <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <listener>
-      <listener-class>org.springframework.web.context.ContextLoaderListener
-      </listener-class>
-    </listener>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath:spring/ApplicationContext-main.xml,
-            classpath:spring/ApplicationContext-netty.xml
-        </param-value>
-    </context-param>
-  <servlet>
-    <!-- spring mvc核心：分发servlet -->
-    <servlet-name>SpringMVC-dispatcher</servlet-name>
-    <servlet-class>
-      org.springframework.web.servlet.DispatcherServlet
-    </servlet-class>
-    <!-- spring mvc的配置文件 -->
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>classpath:spring/SpringMVC.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SpringMVC-dispatcher</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
+
 </web-app>

@@ -47,7 +47,7 @@ public class TestMyBatis_userInfo {
         UserInfoMapper userInfoMapper=session.getMapper(UserInfoMapper.class);
         UserInfo user=new UserInfo();
         user.setUserId(2);
-        user.setUserName("Left-Behind");
+        user.setUserName("Left-");
         userInfoMapper.update(user);
         Test_ListAll();
     }

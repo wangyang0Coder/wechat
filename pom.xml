@@ -18,6 +18,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <mybatis.spring.version>1.2.3</mybatis.spring.version>
+    <druid.version>1.1.4</druid.version>
+    <jsqlparser.version>1.0</jsqlparser.version>
+    <pagehelper.version>5.1.2-beta</pagehelper.version>
   </properties>
 
   <dependencies>
@@ -27,8 +31,20 @@
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
+      <!-- 配置数据库连接池 -->
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-pool2</artifactId>
+          <version>2.0</version>
+      </dependency>
 
-    <dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-dbcp2</artifactId>
+          <version>2.0</version>
+      </dependency>
+
+      <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${spring.version}</version>
@@ -51,6 +67,12 @@
       <artifactId>spring-jdbc</artifactId>
       <version>${spring.version}</version>
     </dependency>
+      <!-- pageHelper -->
+      <dependency>
+          <groupId>com.github.pagehelper</groupId>
+          <artifactId>pagehelper</artifactId>
+          <version>${pagehelper.version}</version>
+      </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
@@ -67,11 +89,27 @@
       <artifactId>mybatis</artifactId>
       <version>3.2.8</version>
     </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${mybatis.spring.version}</version>
+    </dependency>
+      <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid</artifactId>
+          <version>${druid.version}</version>
+      </dependency>
     <!-- netty4 -->
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
       <version>4.1.2.Final</version>
+    </dependency>
+    <!--jsqlparser-->
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>${jsqlparser.version}</version>
     </dependency>
     <!-- log4j日志包 -->
     <dependency>
