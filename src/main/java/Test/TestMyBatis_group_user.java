@@ -27,7 +27,7 @@ public class TestMyBatis_group_user {
             List<Belong> list1=groupInfo.getMembers();
             if(null!=list1){
                 for(Belong belong:list1){
-                    System.out.format("\t%s\t%s\t%s%n",belong.toString(),belong.getUserInfo().getUserName(),belong.getGroupInfo().getGroupName());
+                    System.out.format("\t%s\t%s\t%s\n",belong.toString(),belong.getUserInfo().getUserName(),belong.getGroupInfo().getGroupName());
                 }
             }
         }

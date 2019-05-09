@@ -16,7 +16,10 @@
     <!-- 配置数据库连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 配置与数据库交互的4个必要属性 -->
-       <!-- <property name="driver" value="${jdbc.driver}"/> 这个不能加,否则不能注入-->
+       <property name="driverClassName" value="${jdbc.driver}"/>
+         <!--这里真的有大问题
+         com.alibaba.druid.pool.DruidDataSource                     ====》driverClassName  用这个driver不会爆红，但是会有不能注入的问题
+         org.springframework.jdbc.datasource.DriverManagerDataSource===》driver-->
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
