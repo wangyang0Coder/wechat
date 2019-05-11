@@ -23,6 +23,14 @@ public class UserInfo {
         this.avatarUrl = avatarUrl;
     }*/
 
+    public UserInfo() {
+    }
+
+    public UserInfo(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
+
     public long getUserId() {
         return userId;
     }

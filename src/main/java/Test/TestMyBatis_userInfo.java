@@ -18,7 +18,6 @@ public class TestMyBatis_userInfo {
     @Test
     public void Test_insert(){
         UserInfo user=new UserInfo();
-        user.setUserId(6);
         user.setUserName("龙傲天");
         user.setPassword("123");
         user.setAvatarUrl("小龙");

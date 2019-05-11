@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
+@RequestMapping("/chatroom")
 public class ChatroomController {
 
     @Autowired
@@ -48,39 +49,11 @@ public class ChatroomController {
         Object userId = session.getAttribute(Constant.USER_TOKEN);
         return userInfoService.getByUserId((String)userId);
     }
-    @RequestMapping("showUser")
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mav = new ModelAndView("show");
-        String s="";
-        for(int i=1;i<6;i++)
-        {
-            UserInfo userInfo=userInfoService.get(i);
-            s=s+userInfo.toString()+"\n";
-        }
 
-        mav.addObject("message", s);
-        //System.out.println("注解方式——》");
-        return mav;
-    }
-    @RequestMapping("showGroup")
-    public ModelAndView handleRequest1(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mav = new ModelAndView("show");
-        String s = "";
-        List<GroupInfo> list=chatService.listAll();
-        for(GroupInfo groupInfo:list){
-            System.out.println(groupInfo.toString());
-            s = s+groupInfo.toString()+"\n";
-            List<Belong> list1=groupInfo.getMembers();
-
-            if(null!=list1){
-                for(Belong belong:list1){
-                    s = s+"\t"+belong.getUserInfo()+"\n";
-                    System.out.format("\t%s\t%s\t%s\n",belong.toString(),belong.getUserInfo().getUserName(),belong.getGroupInfo().getGroupName());
-                }
-            }
-        }
-        mav.addObject("message", s);
-        //System.out.println("注解方式——》");
+    @RequestMapping("register")
+    public ModelAndView register(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("register");
+        //mav.addObject("message", "ss");
         return mav;
     }
 }

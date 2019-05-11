@@ -5,6 +5,7 @@ import model.vo.ResponseJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import service.SecurityService;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
  * @Date: 2019/5/9 10:13
  * Description:
  */
+@Service
 public class SecurityServiceImpl implements SecurityService{
 
     @Autowired

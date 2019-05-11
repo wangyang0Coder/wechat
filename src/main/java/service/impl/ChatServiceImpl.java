@@ -1,9 +1,12 @@
 package service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.netty.channel.ChannelHandlerContext;
 import model.mapper.GroupInfoMapper;
+import model.mapper.UserInfoMapper;
 import model.po.GroupInfo;
+import model.po.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,14 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private GroupInfoMapper groupInfoMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
     @Override
     public void register(JSONObject param, ChannelHandlerContext ctx) {
-
+        String userName = (String) param.get("userName");
+        String password = (String) param.get("password");
+        UserInfo userInfo = new UserInfo(userName, password);
+        userInfoMapper.insert(userInfo);//插入数据库
     }
 
     @Override
