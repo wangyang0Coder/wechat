@@ -29,4 +29,7 @@ public interface UserInfoMapper {
 
     @Select("select * from user")
     List<UserInfo> listAll();
+
+    @Select("select * from user where userName=#{username}")
+    UserInfo getByUsername(String username);
 }

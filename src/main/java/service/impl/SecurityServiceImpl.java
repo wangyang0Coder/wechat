@@ -1,12 +1,14 @@
 package service.impl;
 
 import model.mapper.UserInfoMapper;
+import model.po.UserInfo;
 import model.vo.ResponseJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.SecurityService;
+import util.Constant;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +26,15 @@ public class SecurityServiceImpl implements SecurityService{
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);
     @Override
     public ResponseJson login(String username, String password, HttpSession session) {
-        return null;
+        UserInfo userInfo = userInfoMapper.getByUsername(username);
+        if (userInfo == null) {
+            return new ResponseJson().error("不存在该用户名");
+        }
+        if (!userInfo.getPassword().equals(password)) {
+            return new ResponseJson().error("密码不正确");
+        }
+        session.setAttribute(Constant.USER_TOKEN, userInfo.getUserId());
+        return new ResponseJson().success();
     }
 
     @Override

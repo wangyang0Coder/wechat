@@ -18,12 +18,17 @@
         <property name="templateLoaderPath">
             <value>/WEB-INF/views</value>
         </property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
     </bean>
     <bean id="htmlviewResolver"
           class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="suffix" value=".html"/><!--suffix->后缀-->
         <property name="order" value="0"/>
-        <!--<property name="contentType" value="text/html;charset=UTF-8"/>-->
+        <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
     <bean id="jspResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -38,4 +43,17 @@
     <mvc:resources location="/WEB-INF/views/" mapping="/WEB-INF/views/**"/>
     <mvc:resources location="/static/" mapping="/static/**/**"/>
     <mvc:resources location="/UploadFile/" mapping="/UploadFile/**"/>
+    <!-- 使用缓存mvc注解配置 -->
+    <mvc:annotation-driven>
+        <!-- 配置StringHttpMessageConverter当@ResponseBody 时中文正常显示 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 </beans>
