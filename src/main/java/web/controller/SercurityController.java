@@ -25,17 +25,33 @@ public class SercurityController {
     @Autowired
     SecurityService securityService;
 
-    @RequestMapping(value = {"login", "/"}, method = RequestMethod.GET)
+    //入口  url=http://localhost:8080/wechat/Login -> login.html
+    @RequestMapping(value = {"/login", "/Login", "/"}, method = RequestMethod.GET)
     public String toLogin() {
-        return "login";
+        return "login";//这里是返回html名称
     }
 
+    @RequestMapping(value = {"/toRegister"}, method = RequestMethod.GET)
+    public String toRegister() {
+        return "register";//这里是返回html名称
+    }
+
+    @RequestMapping(value = {"/reg", "/register"}, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseJson Register(HttpSession session,
+                                 @RequestParam String username,
+                                 @RequestParam String password) {
+        logger.info("收到注册请求");
+        ResponseJson json = securityService.register(username, password, session);
+        logger.info(json.get("msg").toString());
+        return json;
+    }
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
     public ResponseJson login(HttpSession session,
                               @RequestParam String username,
                               @RequestParam String password) {
-        logger.info("程序进入这里！");
+        logger.info("收到登入请求");
         return securityService.login(username, password, session);
     }
 

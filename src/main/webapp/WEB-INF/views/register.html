@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>小小的聊天室——登录</title>
+    <title>小小的聊天室——注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords"
@@ -26,7 +26,7 @@
 </div>
 <div class="main-content-agile">
     <div class="sub-main-w3">
-        <h2>登录</h2>
+        <h2>注册</h2>
         <form>
 
             <div class="icon1">
@@ -38,8 +38,7 @@
             </div>
 
             <div class="clear"></div>
-            <input type="button" value="登录" onclick="login()"/>
-            <a type="button" href="toRegister">注册账户</a>
+            <input type="button" value="确认" onclick="register()"/>
         </form>
     </div>
 </div>
@@ -48,10 +47,10 @@
 </div>
 </body>
 <script type="text/javascript">
-    function login() {
+    function register() {
         $.ajax({
             type: 'POST',
-            url: 'login',
+            url: 'register',
             dataType: 'json',
             data: {
                 username: $("#username").val(),
@@ -60,7 +59,7 @@
             async: false,
             success: function (data) {
                 if (data.status == 200) {
-                    window.location.href = "chatroom";
+                    window.location.href = "login";
                 } else {
                     alert(data.msg);
                 }

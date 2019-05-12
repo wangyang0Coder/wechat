@@ -41,4 +41,17 @@ public class SecurityServiceImpl implements SecurityService{
     public ResponseJson logout(HttpSession session) {
         return null;
     }
+
+    @Override
+    public ResponseJson register(String username, String password, HttpSession session) {
+        UserInfo userInfo = userInfoMapper.getByUsername(username);
+        System.out.println("调用register");
+        if (userInfo == null) {
+            userInfo = new UserInfo(username, password);
+            userInfoMapper.insert(userInfo);
+            return new ResponseJson().success("注册成功");
+        } else {
+            return new ResponseJson().error("用户名已存在");
+        }
+    }
 }
