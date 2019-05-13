@@ -9,7 +9,7 @@ import model.vo.ResponseJson;
  * Description:
  */
 public interface UserInfoService {
-    ResponseJson getByUserId(String userId);
+    ResponseJson getByUserId(Long userId);
 
     UserInfo get(long i);
 }

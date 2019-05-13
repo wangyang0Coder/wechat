@@ -20,8 +20,10 @@ public class UserInfoServiceImpl implements UserInfoService{
     UserInfoMapper userInfoMapper;
 
     @Override
-    public ResponseJson getByUserId(String userId) {
-        return null;
+    public ResponseJson getByUserId(Long userId) {
+        UserInfo userInfo = userInfoMapper.getByUserId(userId);
+        return new ResponseJson().success()
+                .setData("userInfo", userInfo);
     }
 
     @Override

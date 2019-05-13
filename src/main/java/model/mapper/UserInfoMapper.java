@@ -18,7 +18,7 @@ public interface UserInfoMapper {
     @Insert("insert into user (userId,userName,password,avatarUrl) values (#{userId},#{userName},#{password},#{avatarUrl})")
     void insert(UserInfo userInfo);
 
-    @Update("update user set userName=#{userName} where userId=#{userId}")
+    @Update("update user set userName=#{userName},password=#{password},avatarUrl=#{avatarUrl} where userId=#{userId}")
     void update(UserInfo userInfo);
 
     @Delete("delete from user where userId= #{id}")
@@ -32,4 +32,7 @@ public interface UserInfoMapper {
 
     @Select("select * from user where userName=#{username}")
     UserInfo getByUsername(String username);
+
+    @Select("select * from user where userId=#{id}")
+    UserInfo getByUserId(Long userId);
 }

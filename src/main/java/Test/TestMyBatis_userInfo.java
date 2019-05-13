@@ -44,9 +44,9 @@ public class TestMyBatis_userInfo {
     public void Test_update(){
         SqlSession session= MyBatisUtil.getSesssion();
         UserInfoMapper userInfoMapper=session.getMapper(UserInfoMapper.class);
-        UserInfo user=new UserInfo();
-        user.setUserId(2);
-        user.setUserName("Left-");
+        UserInfo user = userInfoMapper.get(1);
+        user.setUserName("Azhu");
+        user.setAvatarUrl("static/img/avatar/Azhu.jpg");
         userInfoMapper.update(user);
         Test_ListAll();
     }

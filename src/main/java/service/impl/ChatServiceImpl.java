@@ -3,17 +3,24 @@ package service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import model.mapper.GroupInfoMapper;
 import model.mapper.UserInfoMapper;
 import model.po.GroupInfo;
 import model.po.UserInfo;
+import model.vo.ResponseJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ChatService;
+import util.ChatType;
+import util.Constant;
 
+import java.text.MessageFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Azhu
@@ -39,12 +46,27 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
-
+        String fromUserId = (String) param.get("fromUserId");
+        String toUserId = (String) param.get("toUserId");
+        String content = (String) param.get("content");
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
+        if (toUserCtx == null) {
+            String responseJson = new ResponseJson()
+                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
+                    .toString();
+            sendMessage(ctx, responseJson);
+        } else {
+            String responseJson = new ResponseJson().success()
+                    .setData("fromUserId", fromUserId)
+                    .setData("content", content)
+                    .setData("type", ChatType.SINGLE_SENDING)
+                    .toString();
+            sendMessage(toUserCtx, responseJson);
+        }
     }
 
     @Override
     public void groupSend(JSONObject param, ChannelHandlerContext ctx) {
-
     }
 
     @Override
@@ -59,12 +81,33 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void remove(ChannelHandlerContext ctx) {
-
+        Iterator<Map.Entry<String, ChannelHandlerContext>> iterator =
+                Constant.onlineUserMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, ChannelHandlerContext> entry = iterator.next();
+            if (entry.getValue() == ctx) {
+                LOGGER.info("正在移除握手实例...");
+                Constant.webSocketHandshakerMap.remove(ctx.channel().id().asLongText());
+                LOGGER.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}"
+                        , Constant.webSocketHandshakerMap.size()));
+                iterator.remove();
+                LOGGER.info(MessageFormat.format("userId为 {0} 的用户已退出聊天，当前在线人数为：{1}"
+                        , entry.getKey(), Constant.onlineUserMap.size()));
+                break;
+            }
+        }
     }
 
     @Override
     public void typeError(ChannelHandlerContext ctx) {
+        String responseJson = new ResponseJson()
+                .error("该类型不存在！")
+                .toString();
+        sendMessage(ctx, responseJson);
+    }
 
+    private void sendMessage(ChannelHandlerContext ctx, String message) {
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
     }
 
     @Override

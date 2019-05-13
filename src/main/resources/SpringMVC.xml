@@ -8,11 +8,6 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
     <context:annotation-config/>
     <context:component-scan base-package="web.controller"/>
-
-
-    <mvc:annotation-driven />
-
-    <mvc:default-servlet-handler />
     <!-- 视图解释类 -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath">

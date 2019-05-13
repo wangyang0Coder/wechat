@@ -19,7 +19,6 @@
 				var ta = document.getElementById('responseContent');
 				ta.value = "你当前的浏览器支持WebSocket,请进行后续操作\r\n";
 			};
-
 			socket.onclose = function(event){
 				var ta = document.getElementById('responseContent');
 				ta.value = "";
@@ -28,8 +27,6 @@
 		}else{
 			alert("您的浏览器不支持WebSocket");
 		}
-
-
 		function send(message){
 			if(!window.WebSocket){
 				return;

@@ -5,6 +5,8 @@ import model.po.Belong;
 import model.po.GroupInfo;
 import model.po.UserInfo;
 import model.vo.ResponseJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequestMapping("/chatroom")
 public class ChatroomController {
 
+    Logger logger = LoggerFactory.getLogger(ChatroomController.class);
     @Autowired
     UserInfoService userInfoService;
     @Autowired
@@ -46,8 +49,10 @@ public class ChatroomController {
     @RequestMapping(value = "/get_userinfo", method = RequestMethod.POST)
     @ResponseBody
     public ResponseJson getUserInfo(HttpSession session) {
-        Object userId = session.getAttribute(Constant.USER_TOKEN);
-        return userInfoService.getByUserId((String)userId);
+        Long userId = (Long) session.getAttribute(Constant.USER_TOKEN);
+        logger.info("输出userID: " + userId);
+        ResponseJson json = userInfoService.getByUserId(userId);
+        return userInfoService.getByUserId(userId);
     }
 
     @RequestMapping("register")
