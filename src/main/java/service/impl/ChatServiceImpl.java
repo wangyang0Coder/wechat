@@ -46,9 +46,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
-        String fromUserId = (String) param.get("fromUserId");
-        String toUserId = (String) param.get("toUserId");
-        String content = (String) param.get("content");
+        LOGGER.info("程序执行singleSend");
+        String fromUserId = param.get("fromUserId").toString();
+        LOGGER.info(fromUserId);
+        String toUserId = param.get("toUserId").toString();
+        LOGGER.info(toUserId);
+        String content = param.get("content").toString();
+        LOGGER.info(content);
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
         if (toUserCtx == null) {
             String responseJson = new ResponseJson()

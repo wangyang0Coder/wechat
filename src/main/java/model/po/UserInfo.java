@@ -13,7 +13,7 @@ public class UserInfo {
     private String userName;
     private String password;
     private String avatarUrl;
-    private List<UserInfo> friendList;
+    private List<Contact> friendList;
     private List<GroupInfo> groupList;
 
     /*public UserInfo(int userId, String userName, String password, String avatarUrl) {
@@ -63,11 +63,11 @@ public class UserInfo {
         this.avatarUrl = avatarUrl;
     }
 
-    public List<UserInfo> getFriendList() {
+    public List<Contact> getFriendList() {
         return friendList;
     }
 
-    public void setFriendList(List<UserInfo> friendList) {
+    public void setFriendList(List<Contact> friendList) {
         this.friendList = friendList;
     }
 

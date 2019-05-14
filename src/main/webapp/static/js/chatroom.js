@@ -11,9 +11,10 @@
                         userId = userInfo.userId;
                         $("#username").html(userInfo.username);
                         $("#avatarUrl").attr("src", userInfo.avatarUrl);
-                        var groupListHTML = "";
+                        console.log(userInfo.avatarUrl)
+                        /*var groupListHTML = "";
                         var groupList = userInfo.groupList;
-                        for (var i = 0; i < groupList.length; i++) {
+                        for (var i = 0; i < 0; i++) {//userInfo.groupList;对象没有初始化
                             groupListHTML +=
                             '<li>' + 
                                 '<div class="liLeft"><img src="' + groupList[i].groupAvatarUrl + '"></div>' +
@@ -24,17 +25,17 @@
                                     '</div>' +
                             '</li>';
                         }
-                        $('.conLeft ul').append(groupListHTML);
-
+                        $('.conLeft ul').append(groupListHTML);*/
                         var friendListHTML = "";
                         var friendList = userInfo.friendList;
+                        console.log(friendList[0]);
                         for (var i = 0; i < friendList.length; i++) {
                             friendListHTML +=
-                            '<li>' + 
-                                '<div class="liLeft"><img src="' + friendList[i].avatarUrl + '"></div>' +
+                                '<li>' +
+                                '<div class="liLeft"><img src="' + friendList[i].userInfo2.avatarUrl + '"></div>' +
                                     '<div class="liRight">' +
-                                        '<span class="hidden-userId">' + friendList[i].userId + '</span>' + 
-                                        '<span class="intername">' + friendList[i].username + '</span>' + 
+                                '<span class="hidden-userId">' + friendList[i].userInfo2.userId + '</span>' +
+                                '<span class="intername">' + friendList[i].userInfo2.userName + '</span>' +
                                         '<span class="infor"></span>' + 
                                     '</div>' +
                             '</li>';
@@ -53,16 +54,23 @@
     
     function setSentMessageMap() {
         sentMessageMap = new SentMessageMap();
-        sentMessageMap.put("001", new Array());
-        sentMessageMap.put("002", new Array());
-        sentMessageMap.put("003", new Array());
-        sentMessageMap.put("004", new Array());
-        sentMessageMap.put("005", new Array());
-        sentMessageMap.put("006", new Array());
-        sentMessageMap.put("007", new Array());
-        sentMessageMap.put("008", new Array());
-        sentMessageMap.put("009", new Array());
-        sentMessageMap.put("01", new Array());
+        $.ajax({
+            type: 'POST',
+            url: 'chatroom/get_userinfo',
+            dataType: 'json',
+            async: true,
+            success: function (data) {
+                console.log("获取用户信息...");
+                if (data.status == 200) {
+                    var userInfo = data.data.userInfo;
+                    var friendList = userInfo.friendList;
+                    for (var i = 0; i < friendList.length; i++) {
+                        console.log(friendList[i].userInfo1.userId)
+                        sentMessageMap.put(friendList[i].userInfo1.userId, new Array());
+                    }
+                }
+            }
+        });
     }
     
     var ws = {

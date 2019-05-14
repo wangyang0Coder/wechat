@@ -1,10 +1,7 @@
 package model.mapper;
 
 import model.po.UserInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -34,5 +31,10 @@ public interface UserInfoMapper {
     UserInfo getByUsername(String username);
 
     @Select("select * from user where userId=#{id}")
-    UserInfo getByUserId(Long userId);
+    @Results({
+            @Result(property = "userId", column = "userId"),
+            @Result(property = "friendList", javaType = List.class, column = "userId",
+                    many = @Many(select = "model.mapper.ContactMapper.listAll"))
+    })
+    UserInfo getByUserId(Long id);
 }
