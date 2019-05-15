@@ -65,23 +65,22 @@
                     var userInfo = data.data.userInfo;
                     var friendList = userInfo.friendList;
                     for (var i = 0; i < friendList.length; i++) {
-                        console.log(friendList[i].userInfo1.userId)
-                        sentMessageMap.put(friendList[i].userInfo1.userId, new Array());
+                        sentMessageMap.put(friendList[i].userInfo2.userId, new Array());
                     }
                 }
             }
         });
     }
-    
-    var ws = {
-        register: function() {
+
+    var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
+        login: function () {
             if (!window.WebSocket) {
                   return;
             }
             if (socket.readyState == WebSocket.OPEN) {
                 var data = {
                     "userId" : userId,
-                    "type" : "REGISTER"
+                    "type": "LOGIN"
                 };
                 socket.send(JSON.stringify(data));
             } else {
@@ -160,8 +159,8 @@
                 alert("Websocket连接没有开启！");
             }
         },
-        
-        registerReceive: function() {
+
+        loginReceive: function () {
             console.log("userId为 " + userId + " 的用户登记到在线用户表成功！");
         },
         
@@ -564,6 +563,8 @@
 				
 				// 3. 把 调整后的消息html标签字符串 添加到已发送用户消息表
 				if (toUserId.length != 0) {
+                    console.log(sentMessageMap);
+                    console.log(sentMessageMap.get(toUserId));
 					sentMessageMap.get(toUserId).push($('.newsList li').last().prop("outerHTML"));
 				} else {
 					sentMessageMap.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
@@ -591,8 +592,9 @@
 			
 			receiveSingleMsg: function(msg, fromUserId) {
 				// 1. 设置消息框可见
-				$('.conRight').css("display", "-webkit-box"); 
-				
+				$('.conRight').css("display", "-webkit-box");
+                console.log(msg);
+                console.log(fromUserId);
 				// 2. 把新消息放到暂存区$('.newsList-temp)，如果用户正处于与发出新消息的用户的消息框，则消息要回显
 				$('.newsList-temp').append(msg);
 				var $focusUserId = $(".conLeft .bg").find('span.hidden-userId');

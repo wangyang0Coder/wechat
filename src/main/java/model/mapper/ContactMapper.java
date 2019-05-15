@@ -15,7 +15,7 @@ import java.util.List;
  * Description:
  */
 public interface ContactMapper {
-    @Select("select * from Contact where userId1=#{id} or userId2=#{id}")
+    @Select("select * from Contact where userId1=#{id}")
     @Results({
             @Result(property = "userInfo1", column = "userId1", one = @One(select = "model.mapper.UserInfoMapper.get")),
             //column是执行one = @One(select = "model.mapper.UserInfoMapper.get"))的传入

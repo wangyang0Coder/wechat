@@ -36,12 +36,17 @@ public class ChatServiceImpl implements ChatService {
     private GroupInfoMapper groupInfoMapper;
     @Autowired
     private UserInfoMapper userInfoMapper;
+
     @Override
-    public void register(JSONObject param, ChannelHandlerContext ctx) {
-        String userName = (String) param.get("userName");
-        String password = (String) param.get("password");
-        UserInfo userInfo = new UserInfo(userName, password);
-        userInfoMapper.insert(userInfo);//插入数据库
+    public void login(JSONObject param, ChannelHandlerContext ctx) {
+        String userId = param.get("userId").toString();
+        Constant.onlineUserMap.put(userId, ctx);
+        String responseJson = new ResponseJson().success()
+                .setData("type", ChatType.LOGIN)
+                .toString();
+        sendMessage(ctx, responseJson);
+        LOGGER.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}"
+                , userId, Constant.onlineUserMap.size()));
     }
 
     @Override

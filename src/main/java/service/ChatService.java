@@ -12,7 +12,8 @@ import java.util.List;
  * Description:
  */
 public interface ChatService {
-    public void register(JSONObject param, ChannelHandlerContext ctx);
+
+    public void login(JSONObject param, ChannelHandlerContext ctx);
 
     public void singleSend(JSONObject param, ChannelHandlerContext ctx);
 

@@ -131,6 +131,7 @@
     setSentMessageMap();
     if (!window.WebSocket) {
         window.WebSocket = window.MozWebSocket;
+        console.log("111111111");
     }
     if (window.WebSocket) {
         socket = new WebSocket("ws://localhost:3333");
@@ -140,8 +141,8 @@
                 var type = json.data.type;
                 console.log("收到一条新信息，类型为：" + type);
                 switch (type) {
-                    case "REGISTER":
-                        ws.registerReceive();
+                    case "LOGIN":
+                        ws.loginReceive();
                         break;
                     case "SINGLE_SENDING":
                         ws.singleReceive(json.data);
@@ -164,10 +165,10 @@
             }
         };
 
-        // 连接成功1秒后，将用户信息注册到服务器在线用户表
+        // 连接成功1秒后，将用户信息注册到服务器在线用户表 这里是直接发送给WebSocketServerHandler.handlerWebSocketFrame直接处理登入
         socket.onopen = setTimeout(function (event) {
+            ws.login();
             console.log("WebSocket已成功连接！");
-            ws.register();
         }, 1000)
 
         socket.onclose = function (event) {

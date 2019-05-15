@@ -75,8 +75,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         }
         String type = (String) param.get("type");
         switch (type) {
-            case "REGISTER"://登录消息
-                chatService.register(param, ctx);
+            case "LOGIN"://登录消息
+                chatService.login(param, ctx);
                 break;
             case "SINGLE_SENDING"://单体消息发送
                 chatService.singleSend(param, ctx);

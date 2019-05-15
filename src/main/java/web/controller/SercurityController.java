@@ -53,6 +53,7 @@ public class SercurityController {
                               @RequestParam String password) {
         logger.info("收到登入请求");
         return securityService.login(username, password, session);
+
     }
 
     @RequestMapping(value = "logout", method = RequestMethod.POST)
