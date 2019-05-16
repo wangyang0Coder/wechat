@@ -1,3 +1,4 @@
+
     function setUserInfo() {
         $.ajax({
             type : 'POST',

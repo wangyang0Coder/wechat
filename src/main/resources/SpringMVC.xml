@@ -52,4 +52,11 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <!-- 用户认证拦截器 防止直接登入到聊天室-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/chatroom/**"/>
+            <bean class="web.interceptor.UserAuthInteceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

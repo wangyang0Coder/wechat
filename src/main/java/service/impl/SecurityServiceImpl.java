@@ -11,6 +11,7 @@ import service.SecurityService;
 import util.Constant;
 
 import javax.servlet.http.HttpSession;
+import java.text.MessageFormat;
 
 /**
  * @Author: Azhu
@@ -33,13 +34,25 @@ public class SecurityServiceImpl implements SecurityService{
         if (!userInfo.getPassword().equals(password)) {
             return new ResponseJson().error("密码不正确");
         }
+        if (Constant.onlineUserMap.get(String.valueOf(userInfo.getUserId())) != null) {
+            return new ResponseJson().error("该用户已经登录");
+        }
         session.setAttribute(Constant.USER_TOKEN, userInfo.getUserId());
+        session.setAttribute("Azhu", "测试session在JS中怎么读取");
         return new ResponseJson().success();
     }
 
     @Override
     public ResponseJson logout(HttpSession session) {
-        return null;
+        Object userId = session.getAttribute(Constant.USER_TOKEN);
+        if (userId == null) {
+            return new ResponseJson().error("请先登录！");
+        }
+        LOGGER.info(session.getAttribute("Azhu").toString());
+        session.removeAttribute(Constant.USER_TOKEN);
+        Constant.onlineUserMap.remove(String.valueOf(userId.toString()));
+        LOGGER.info(MessageFormat.format("userId为 {0} 的用户已注销登录!", userId));
+        return new ResponseJson().success();
     }
 
     @Override

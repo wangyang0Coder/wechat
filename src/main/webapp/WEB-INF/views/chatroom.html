@@ -116,7 +116,6 @@
 
 </div>
 
-
 <script type="text/javascript" src="static/js/common/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="static/js/common/jquery.actual.min.js"></script>
 <script type="text/javascript" src="static/js/common/bootstrap.min.js"></script>
@@ -131,7 +130,6 @@
     setSentMessageMap();
     if (!window.WebSocket) {
         window.WebSocket = window.MozWebSocket;
-        console.log("111111111");
     }
     if (window.WebSocket) {
         socket = new WebSocket("ws://localhost:3333");

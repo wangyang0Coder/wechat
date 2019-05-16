@@ -38,6 +38,7 @@ public class ChatroomController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String toChatroom() {
+        logger.info("直接进入聊天室");
         return "chatroom";
     }
     
@@ -55,7 +56,7 @@ public class ChatroomController {
         return userInfoService.getByUserId(userId);
     }
 
-    @RequestMapping("register")
+    @RequestMapping("/register")
     public ModelAndView register(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("register");
         //mav.addObject("message", "ss");

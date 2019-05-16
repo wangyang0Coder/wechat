@@ -42,9 +42,7 @@ public class SercurityController {
                                  @RequestParam String username,
                                  @RequestParam String password) {
         logger.info("收到注册请求");
-        ResponseJson json = securityService.register(username, password, session);
-        logger.info(json.get("msg").toString());
-        return json;
+        return securityService.register(username, password, session);
     }
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
@@ -53,12 +51,12 @@ public class SercurityController {
                               @RequestParam String password) {
         logger.info("收到登入请求");
         return securityService.login(username, password, session);
-
     }
 
     @RequestMapping(value = "logout", method = RequestMethod.POST)
     @ResponseBody
     public ResponseJson logout(HttpSession session) {
+        logger.info("收到登出请求");
         return securityService.logout(session);
     }
 }
