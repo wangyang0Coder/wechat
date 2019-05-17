@@ -56,6 +56,7 @@
     
     function setSentMessageMap() {
         sentMessageMap = new SentMessageMap();
+        sentMessageMap_Group = new SentMessageMap();
         $.ajax({
             type: 'POST',
             url: 'chatroom/get_userinfo',
@@ -68,6 +69,10 @@
                     var friendList = userInfo.friendList;
                     for (var i = 0; i < friendList.length; i++) {
                         sentMessageMap.put(friendList[i].userInfo2.userId, new Array());
+                    }
+                    var groupList = userInfo.groupList;
+                    for (var i = 0; i < groupList.length; i++) {
+                        sentMessageMap_Group.put(groupList[i].groupInfo.groupId, new Array());
                     }
                 }
             }
@@ -569,7 +574,7 @@
                     console.log(sentMessageMap.get(toUserId));
 					sentMessageMap.get(toUserId).push($('.newsList li').last().prop("outerHTML"));
 				} else {
-					sentMessageMap.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
+                    sentMessageMap_Group.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
 				}
 				
 				// 4. 滚动条往底部移
@@ -585,7 +590,7 @@
 				if (toUserId.length != 0) {
 		            sentMessageMap.get(toUserId).push($('.newsList li').last().prop("outerHTML"));
 		        } else {
-		            sentMessageMap.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
+                    sentMessageMap_Group.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
 		        }
 				
 				// 3. 消息框往下移
@@ -670,7 +675,7 @@
 	            }
 	            
 	            // 4. 把 调整后的消息html标签字符串 添加到已发送用户消息表，并清空暂存区
-	            sentMessageMap.get(toGroupId).push($('.newsList-temp li').last().prop("outerHTML"));
+                sentMessageMap_Group.get(toGroupId).push($('.newsList-temp li').last().prop("outerHTML"));
 	            $('.newsList-temp').empty();
 	            
 	            // 5. 滚动条滑到底
