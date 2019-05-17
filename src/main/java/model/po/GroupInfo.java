@@ -13,8 +13,6 @@ public class GroupInfo {
     private String groupName;
     private String groupAvatarUrl;
     private List<Belong> members;
-
-
     public GroupInfo() {
 
     }
@@ -53,6 +51,6 @@ public class GroupInfo {
 
     @Override
     public String toString() {
-        return this.groupId+" "+this.groupName;
+        return this.groupId + " " + this.groupName + " " + this.groupAvatarUrl;
     }
 }

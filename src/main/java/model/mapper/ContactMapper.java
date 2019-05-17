@@ -21,5 +21,5 @@ public interface ContactMapper {
             //column是执行one = @One(select = "model.mapper.UserInfoMapper.get"))的传入
             @Result(property = "userInfo2", column = "userId2", one = @One(select = "model.mapper.UserInfoMapper.get"))
     })
-    public List<Contact> listAll(int id);
+    public List<Contact> listByUserId(int id);
 }

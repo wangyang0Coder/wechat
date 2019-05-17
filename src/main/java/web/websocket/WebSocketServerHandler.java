@@ -57,6 +57,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         // 只支持文本格式，不支持二进制消息
         if (!(frame instanceof TextWebSocketFrame)) {
             sendErrorMessage(ctx, "仅支持文本(Text)格式，不支持二进制消息");
+            return;
         }
 
         // 客服端发送过来的消息

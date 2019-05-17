@@ -13,20 +13,21 @@
                         $("#username").html(userInfo.username);
                         $("#avatarUrl").attr("src", userInfo.avatarUrl);
                         console.log(userInfo.avatarUrl)
-                        /*var groupListHTML = "";
+                        var groupListHTML = "";
                         var groupList = userInfo.groupList;
-                        for (var i = 0; i < 0; i++) {//userInfo.groupList;对象没有初始化
+                        console.log(groupList);
+                        for (var i = 0; i < groupList.length; i++) {//userInfo.groupList;对象没有初始化
                             groupListHTML +=
-                            '<li>' + 
-                                '<div class="liLeft"><img src="' + groupList[i].groupAvatarUrl + '"></div>' +
+                            '<li>' +
+                                '<div class="liLeft"><img src="' + groupList[i].groupInfo.groupAvatarUrl + '"></div>' +
                                     '<div class="liRight">' +
-                                        '<span class="hidden-groupId">' + groupList[i].groupId + '</span>' + 
-                                        '<span class="intername">' + groupList[i].groupName + '</span>' + 
+                                '<span class="hidden-groupId">' + groupList[i].groupInfo.groupId + '</span>' +
+                                '<span class="intername">' + groupList[i].groupInfo.groupName + '</span>' +
                                         '<span class="infor"></span>' + 
                                     '</div>' +
                             '</li>';
                         }
-                        $('.conLeft ul').append(groupListHTML);*/
+                        $('.conLeft ul').append(groupListHTML);
                         var friendListHTML = "";
                         var friendList = userInfo.friendList;
                         console.log(friendList[0]);

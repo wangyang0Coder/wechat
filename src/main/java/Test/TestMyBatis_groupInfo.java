@@ -47,8 +47,9 @@ public class TestMyBatis_groupInfo {
         SqlSession session= MyBatisUtil.getSesssion();
         GroupInfoMapper groupInfoMapper=session.getMapper(GroupInfoMapper.class);
         GroupInfo groupInfo=new GroupInfo();
-        groupInfo.setGroupId(6);
-        groupInfo.setGroupName("峨嵋");
+        groupInfo.setGroupId(2);
+        groupInfo.setGroupName("帝国の");
+        groupInfo.setGroupAvatarUrl("static/img/avatar/帝国の.jpg");
         groupInfoMapper.update(groupInfo);
         Test_ListAll();
     }

@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import model.mapper.GroupInfoMapper;
 import model.mapper.UserInfoMapper;
+import model.po.Belong;
 import model.po.GroupInfo;
 import model.po.UserInfo;
 import model.vo.ResponseJson;
@@ -76,6 +77,41 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void groupSend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = param.get("fromUserId").toString();
+        LOGGER.info(fromUserId);
+        String toGroupId = (String) param.get("toGroupId").toString();
+        LOGGER.info(toGroupId);
+        String content = (String) param.get("content");
+        LOGGER.info(content);
+        long togrouId = Long.parseLong(toGroupId);
+        long fromuserId = Long.parseLong(fromUserId);
+        GroupInfo groupInfo = groupInfoMapper.getByGroupId(togrouId);
+        String responseJson = new ResponseJson().success()
+                .setData("fromUserId", fromUserId)
+                .setData("content", content)
+                .setData("toGroupId", toGroupId)
+                .setData("type", ChatType.GROUP_SENDING)
+                .toString();
+
+        groupInfo.getMembers().stream()//使用JDK lambda 新语法
+                .forEach(member -> {
+                    ChannelHandlerContext toCtx = Constant.onlineUserMap.get(String.valueOf(member.getUserInfo().getUserId()));//userID是long类型的应该转化为String
+                    if (toCtx != null && member.getUserInfo().getUserId() != (fromuserId)) {//不等与发送者就转发
+                        //System.out.println("转发");
+                        LOGGER.info(groupInfo.getGroupName() + "群组消息:" + String.valueOf(fromuserId) + "--->" + String.valueOf(member.getUserInfo().getUserId()));
+                        sendMessage(toCtx, responseJson);
+                    }
+                });
+        /*List<Belong> Members = groupInfo.getMembers();
+            for (Belong member : Members) {
+            ChannelHandlerContext toCtx = Constant.onlineUserMap.get(String.valueOf(member.getUserInfo().getUserId()));//userID是long类型的应该转化为String
+            if (toCtx != null && member.getUserInfo().getUserId() != (fromuserId)) {//不等与发送者就转发
+                //System.out.println("转发");
+                LOGGER.info(groupInfo.getGroupName() + "群组消息:" + String.valueOf(fromuserId) + "--->" + String.valueOf(member.getUserInfo().getUserId()));
+                sendMessage(toCtx, responseJson);
+
+            }
+        }*/
     }
 
     @Override

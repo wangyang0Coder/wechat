@@ -34,7 +34,9 @@ public interface UserInfoMapper {
     @Results({
             @Result(property = "userId", column = "userId"),
             @Result(property = "friendList", javaType = List.class, column = "userId",
-                    many = @Many(select = "model.mapper.ContactMapper.listAll"))
+                    many = @Many(select = "model.mapper.ContactMapper.listByUserId")),
+            @Result(property = "groupList", javaType = List.class, column = "userId",
+                    many = @Many(select = "model.mapper.BelongMapper.listByUserId"))
     })
     UserInfo getByUserId(Long id);
 }

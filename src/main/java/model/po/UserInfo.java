@@ -14,7 +14,7 @@ public class UserInfo {
     private String password;
     private String avatarUrl;
     private List<Contact> friendList;
-    private List<GroupInfo> groupList;
+    private List<Belong> groupList;
 
     /*public UserInfo(int userId, String userName, String password, String avatarUrl) {
         this.userId = userId;
@@ -71,11 +71,11 @@ public class UserInfo {
         this.friendList = friendList;
     }
 
-    public List<GroupInfo> getGroupList() {
+    public List<Belong> getGroupList() {
         return groupList;
     }
 
-    public void setGroupList(List<GroupInfo> groupList) {
+    public void setGroupList(List<Belong> groupList) {
         this.groupList = groupList;
     }
 

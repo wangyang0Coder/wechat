@@ -14,7 +14,7 @@ public interface GroupInfoMapper {
     @Insert("insert into group_ (groupId,groupName,groupAvatarUrl) values (#{groupId},#{groupName},#{groupAvatarUrl})")
     void insert(GroupInfo groupInfo);
 
-    @Update("update group_ set groupName=#{groupName} where groupId=#{groupId}")
+    @Update("update group_ set groupName=#{groupName},groupAvatarUrl=#{groupAvatarUrl}  where groupId=#{groupId}")
     void update(GroupInfo groupInfo);
 
     @Delete("delete from group_ where groupId= #{id}")
@@ -30,4 +30,12 @@ public interface GroupInfoMapper {
                         many =@Many(select = "model.mapper.BelongMapper.listByGroupId"))
         })
     List<GroupInfo> listAll();
+
+    @Select("select * from group_ where groupId = #{id}")
+    @Results({
+            @Result(property = "groupId", column = "groupId"),
+            @Result(property = "members", javaType = List.class, column = "groupId",
+                    many = @Many(select = "model.mapper.BelongMapper.listByGroupId"))
+    })
+    GroupInfo getByGroupId(long id);
 }

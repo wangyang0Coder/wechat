@@ -25,7 +25,7 @@ public class TestMyBatis_Contact {
     public void list() {
         SqlSession session = MyBatisUtil.getSesssion();
         ContactMapper mapper = session.getMapper(ContactMapper.class);
-        List<Contact> list = mapper.listAll(1);
+        List<Contact> list = mapper.listByUserId(1);
         for (Contact c : list) {
             logger.info(c.getUserInfo1().getUserName() + " " + c.getUserInfo2().getUserName());
         }

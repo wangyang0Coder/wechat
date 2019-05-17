@@ -36,7 +36,7 @@ public class TestMyBatis_group_user {
     public void Test11(){
         SqlSession session= MyBatisUtil.getSesssion();
         BelongMapper mapper=session.getMapper(BelongMapper.class);
-        List<Belong> list =mapper.listByGroupId(1);
+        List<Belong> list = mapper.listByGroupId(3);
         for(Belong belong:list)
         {
             logger.info("开始输出");
@@ -44,5 +44,37 @@ public class TestMyBatis_group_user {
             System.out.println("归属于："+belong.getGroupInfo().toString()+"群组");
             logger.info("结束输出");
         }
+    }
+
+    @Test
+    public void Test12() {
+        SqlSession session = MyBatisUtil.getSesssion();
+        GroupInfoMapper mapper = session.getMapper(GroupInfoMapper.class);
+        List<GroupInfo> list = mapper.listAll();
+        for (GroupInfo l : list) {
+            logger.info("开始输出");
+            List<Belong> B = l.getMembers();
+            for (Belong belong : B) {
+
+                System.out.println(belong.getUserInfo().toString());
+                System.out.println("归属于：" + belong.getGroupInfo().toString() + "群组");
+            }
+            logger.info("结束输出");
+        }
+    }
+
+    @Test
+    public void getByGroupId() {
+        SqlSession session = MyBatisUtil.getSesssion();
+        GroupInfoMapper mapper = session.getMapper(GroupInfoMapper.class);
+        GroupInfo groupInfo = mapper.getByGroupId(3);
+        logger.info("开始输出");
+        List<Belong> B = groupInfo.getMembers();
+        for (Belong belong : B) {
+
+            System.out.println(belong.getUserInfo().toString());
+            System.out.println("归属于：" + belong.getGroupInfo().toString() + "群组");
+        }
+        logger.info("结束输出");
     }
 }
