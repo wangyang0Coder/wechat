@@ -1,5 +1,6 @@
 package common;
 
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class AppContext {
     public void init() {
         nettyThread =new Thread(webSocketServer);
         logger.info("开启独立线程，启动Netty WebSocket服务器...");
+        //logger.info( System.getProperty("user.dir"));
         nettyThread.start();
     }
     /**

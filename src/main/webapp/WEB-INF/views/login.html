@@ -61,6 +61,7 @@
             success: function (data) {
                 if (data.status == 200) {
                     window.location.href = "chatroom";
+                    console.log("转到聊天室界面");
                 } else {
                     alert(data.msg);
                 }

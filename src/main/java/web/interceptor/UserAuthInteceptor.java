@@ -20,10 +20,10 @@ public class UserAuthInteceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        logger.info("拦截到一个直接访问聊天室的请求");
         HttpSession session = httpServletRequest.getSession();
         Object userToken = session.getAttribute(Constant.USER_TOKEN);
         if (userToken == null) {//这里判断一个全局类里的用户标记是否为空
+            logger.info("拦截到一个直接访问聊天室的请求");
             httpServletResponse.sendRedirect("login");//重定向到登录界面
             return false;
         }

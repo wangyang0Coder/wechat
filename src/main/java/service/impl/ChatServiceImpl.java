@@ -116,11 +116,52 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void FileMsgSingleSend(JSONObject param, ChannelHandlerContext ctx) {
-
+        String fromUserId = param.get("fromUserId").toString();
+        String toUserId = param.get("toUserId").toString();
+        String originalFilename = (String) param.get("originalFilename");
+        String fileSize = (String) param.get("fileSize");
+        String fileUrl = (String) param.get("fileUrl");
+        ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
+        if (toUserCtx == null) {
+            String responseJson = new ResponseJson()
+                    .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
+                    .toString();
+            sendMessage(ctx, responseJson);
+        } else {
+            String responseJson = new ResponseJson().success()
+                    .setData("fromUserId", fromUserId)
+                    .setData("originalFilename", originalFilename)
+                    .setData("fileSize", fileSize)
+                    .setData("fileUrl", fileUrl)
+                    .setData("type", ChatType.FILE_MSG_SINGLE_SENDING)
+                    .toString();
+            sendMessage(toUserCtx, responseJson);
+        }
     }
 
     @Override
     public void FileMsgGroupSend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = param.get("fromUserId").toString();
+        String toGroupId = param.get("toGroupId").toString();
+        String originalFilename = (String) param.get("originalFilename");
+        String fileSize = (String) param.get("fileSize");
+        String fileUrl = (String) param.get("fileUrl");
+        GroupInfo groupInfo = groupInfoMapper.getByGroupId(Long.valueOf(toGroupId));
+        String responseJson = new ResponseJson().success()
+                .setData("fromUserId", fromUserId)
+                .setData("toGroupId", toGroupId)
+                .setData("originalFilename", originalFilename)
+                .setData("fileSize", fileSize)
+                .setData("fileUrl", fileUrl)
+                .setData("type", ChatType.FILE_MSG_GROUP_SENDING)
+                .toString();
+        groupInfo.getMembers().stream()
+                .forEach(member -> {
+                    ChannelHandlerContext toCtx = Constant.onlineUserMap.get(String.valueOf(member.getUserInfo().getUserId()));
+                    if (toCtx != null && member.getUserInfo().getUserId() != Long.parseLong(fromUserId)) {
+                        sendMessage(toCtx, responseJson);
+                    }
+                });
 
     }
 
