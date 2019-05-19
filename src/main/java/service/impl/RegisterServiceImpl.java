@@ -1,26 +1,52 @@
 package service.impl;
 
+import model.mapper.UserInfoMapper;
+import model.po.UserInfo;
 import model.vo.ResponseJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import service.FileUploadService;
+import service.RegisterService;
 import util.FileUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+/**
+ * @Author: Azhu
+ * @Date: 2019/5/19 9:44
+ * Description:
+ */
 @Service
-public class FileUploadServiceImpl implements FileUploadService {
-
+public class RegisterServiceImpl implements RegisterService {
     private final static String SERVER_URL_PREFIX = "http://localhost:8080/wechat/";//这里是访问URL
-    private final static String FILE_STORE_PATH = "UploadFile";
+    private final static String FILE_STORE_PATH = "static\\img\\avatar";
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterServiceImpl.class);
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     @Override
-    public ResponseJson upload(MultipartFile file, HttpServletRequest request) {
+    public ResponseJson register(String username, String password, String avatarShow, HttpSession session) {
+        UserInfo userInfo = userInfoMapper.getByUsername(username);
+        if (userInfo == null) {
+            userInfo = new UserInfo(username, password, avatarShow);
+            userInfoMapper.insert(userInfo);
+            LOGGER.info(userInfo.toString() + "注册成功并写入数据库");
+            return new ResponseJson().success("注册成功");
+        } else {
+            return new ResponseJson().error("用户名已存在");
+        }
+    }
+
+    @Override
+    public ResponseJson uploadAvatar(MultipartFile file, HttpServletRequest request) {
         // 重命名文件，防止重名
         String filename = getRandomUUID();
         String suffix = "";
@@ -33,18 +59,18 @@ public class FileUploadServiceImpl implements FileUploadService {
         filename = filename + suffix;
         String prefix = request.getSession().getServletContext().getRealPath("/") + FILE_STORE_PATH;
 
-        System.out.println("文件存储路径为:" + prefix + "\\" + filename);
+        System.out.println("头像存储路径为:" + prefix + "\\" + filename);
         Path filePath = Paths.get(prefix, filename);
         try {
             Files.copy(file.getInputStream(), filePath);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseJson().error("文件上传发生错误！");
+            return new ResponseJson().error("头像上传发生错误！");
         }
-        return new ResponseJson().success()
+        return new ResponseJson().success().setMsg("上传头像成功")
                 .setData("originalFilename", originalFilename)
                 .setData("fileSize", fileSize)
-                .setData("fileUrl", SERVER_URL_PREFIX + FILE_STORE_PATH + "\\" + filename);
+                .setData("fileUrl", FILE_STORE_PATH + "\\" + filename);
     }
 
     /**
@@ -58,5 +84,4 @@ public class FileUploadServiceImpl implements FileUploadService {
     private String getRandomUUID() {
         return UUID.randomUUID().toString().replace("-", "");
     }
-
 }

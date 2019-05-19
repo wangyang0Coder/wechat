@@ -55,11 +55,4 @@ public class ChatroomController {
         ResponseJson json = userInfoService.getByUserId(userId);
         return userInfoService.getByUserId(userId);
     }
-
-    @RequestMapping("/register")
-    public ModelAndView register(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mav = new ModelAndView("register");
-        //mav.addObject("message", "ss");
-        return mav;
-    }
 }

@@ -18,10 +18,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/chatroom")
 public class FileUploadController {
 
-    static {
-        System.out.println("FileUploadController");
-    }
-
     @Autowired
     private FileUploadService fileUploadService;
 

@@ -31,6 +31,12 @@ public class UserInfo {
         this.password = password;
     }
 
+    public UserInfo(String username, String password, String avatarShow) {
+        this.userName = username;
+        this.password = password;
+        this.avatarUrl = avatarShow;
+    }
+
     public long getUserId() {
         return userId;
     }

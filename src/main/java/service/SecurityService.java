@@ -13,6 +13,4 @@ public interface SecurityService {
     ResponseJson login(String username, String password, HttpSession session);
 
     ResponseJson logout(HttpSession session);
-
-    ResponseJson register(String username, String password, HttpSession session);
 }
