@@ -48,7 +48,6 @@ public class SecurityServiceImpl implements SecurityService{
         if (userId == null) {
             return new ResponseJson().error("请先登录！");
         }
-        LOGGER.info(session.getAttribute("Azhu").toString());
         session.removeAttribute(Constant.USER_TOKEN);
         Constant.onlineUserMap.remove(String.valueOf(userId.toString()));
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户已注销登录!", userId));

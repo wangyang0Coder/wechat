@@ -33,7 +33,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         filename = filename + suffix;
         String prefix = request.getSession().getServletContext().getRealPath("/") + FILE_STORE_PATH;
 
-        System.out.println("文件存储路径为:" + prefix + "\\" + filename);
+        System.out.println("文件存储路径为:" + prefix + "/" + filename);
         Path filePath = Paths.get(prefix, filename);
         try {
             Files.copy(file.getInputStream(), filePath);
@@ -44,7 +44,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         return new ResponseJson().success()
                 .setData("originalFilename", originalFilename)
                 .setData("fileSize", fileSize)
-                .setData("fileUrl", SERVER_URL_PREFIX + FILE_STORE_PATH + "\\" + filename);
+                .setData("fileUrl", SERVER_URL_PREFIX + FILE_STORE_PATH + "/" + filename);
     }
 
     /**

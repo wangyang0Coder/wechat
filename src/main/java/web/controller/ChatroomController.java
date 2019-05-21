@@ -52,7 +52,7 @@ public class ChatroomController {
     public ResponseJson getUserInfo(HttpSession session) {
         Long userId = (Long) session.getAttribute(Constant.USER_TOKEN);
         logger.info("输出userID: " + userId);
-        ResponseJson json = userInfoService.getByUserId(userId);
+        //ResponseJson json = userInfoService.getByUserId(userId);
         return userInfoService.getByUserId(userId);
     }
 }

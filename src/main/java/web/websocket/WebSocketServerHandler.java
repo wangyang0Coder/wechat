@@ -76,7 +76,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
         }
         String type = (String) param.get("type");
         switch (type) {
-            case "LOGIN"://登录消息
+            case "LOGIN"://这里是登录Netty服务器
                 chatService.login(param, ctx);
                 break;
             case "SINGLE_SENDING"://单体消息发送
@@ -95,6 +95,23 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                 chatService.typeError(ctx);
                 break;
         }
+    }
+
+    /**
+     * 描述：客户端断开连接
+     */
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        chatService.remove(ctx);
+    }
+
+    /**
+     * 异常处理：关闭channel
+     */
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
     }
     private void sendErrorMessage(ChannelHandlerContext ctx, String errorMsg) {
         String responseJson = new ResponseJson()

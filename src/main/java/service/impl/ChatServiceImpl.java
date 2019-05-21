@@ -93,7 +93,7 @@ public class ChatServiceImpl implements ChatService {
                 .setData("type", ChatType.GROUP_SENDING)
                 .toString();
 
-        groupInfo.getMembers().stream()//使用JDK lambda 新语法
+        groupInfo.getMembers().stream()//使用JDK1.8 lambda 新语法
                 .forEach(member -> {
                     ChannelHandlerContext toCtx = Constant.onlineUserMap.get(String.valueOf(member.getUserInfo().getUserId()));//userID是long类型的应该转化为String
                     if (toCtx != null && member.getUserInfo().getUserId() != (fromuserId)) {//不等与发送者就转发

@@ -27,7 +27,7 @@ import java.util.UUID;
 @Service
 public class RegisterServiceImpl implements RegisterService {
     private final static String SERVER_URL_PREFIX = "http://localhost:8080/wechat/";//这里是访问URL
-    private final static String FILE_STORE_PATH = "static\\img\\avatar";
+    private final static String FILE_STORE_PATH = "static/img/avatar";
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterServiceImpl.class);
     @Autowired
     private UserInfoMapper userInfoMapper;
@@ -59,7 +59,7 @@ public class RegisterServiceImpl implements RegisterService {
         filename = filename + suffix;
         String prefix = request.getSession().getServletContext().getRealPath("/") + FILE_STORE_PATH;
 
-        System.out.println("头像存储路径为:" + prefix + "\\" + filename);
+        System.out.println("头像存储路径为:" + prefix + "/" + filename);
         Path filePath = Paths.get(prefix, filename);
         try {
             Files.copy(file.getInputStream(), filePath);
@@ -70,7 +70,7 @@ public class RegisterServiceImpl implements RegisterService {
         return new ResponseJson().success().setMsg("上传头像成功")
                 .setData("originalFilename", originalFilename)
                 .setData("fileSize", fileSize)
-                .setData("fileUrl", FILE_STORE_PATH + "\\" + filename);
+                .setData("fileUrl", FILE_STORE_PATH + "/" + filename);
     }
 
     /**
