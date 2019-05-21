@@ -113,6 +113,12 @@
             </div>
         </div>
     </div>
+    <div class="icon2">
+        <input placeholder="好友名称" id="findName" type="text"/>
+    </div>
+
+    <div class="clear"></div>
+    <input type="button" value="添加" onclick="find()"/>
 
 </div>
 
@@ -177,6 +183,24 @@
         alert("您的浏览器不支持WebSocket！");
     }
 
+    function find() {
+        $.ajax({
+            type: 'POST',
+            url: 'chatroom/add_friend',
+            dataType: 'json',
+            data: {
+                findName: $("#findName").val()
+            },
+            success: function (data) {
+                if (data.status == 200) {
+                    alert(data.msg);
+                    window.location.reload();//刷新界面
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
 </script>
 
 

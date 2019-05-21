@@ -8,10 +8,16 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
  * Description:用户之间的关系类
  */
 public class Contact {
+    private long id;
     private UserInfo userInfo1;
     private UserInfo userInfo2;
 
     public Contact() {
+    }
+
+    public Contact(UserInfo userInfo1, UserInfo userInfo2) {
+        this.userInfo1 = userInfo1;
+        this.userInfo2 = userInfo2;
     }
 
     public UserInfo getUserInfo1() {

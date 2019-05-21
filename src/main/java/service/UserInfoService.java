@@ -12,4 +12,6 @@ public interface UserInfoService {
     ResponseJson getByUserId(Long userId);
 
     UserInfo get(long i);
+
+    ResponseJson contact(Long userId, String addUserId);
 }

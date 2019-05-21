@@ -2,10 +2,7 @@ package model.mapper;
 
 import model.po.Belong;
 import model.po.Contact;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -22,4 +19,8 @@ public interface ContactMapper {
             @Result(property = "userInfo2", column = "userId2", one = @One(select = "model.mapper.UserInfoMapper.get"))
     })
     public List<Contact> listByUserId(int id);
+
+    @Insert("insert into contact (userId1,userId2) values (#{userId},#{addUserId})")
+    public void join(@Param("userId") long userId, @Param("addUserId") long addUserId);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.ChatService;
@@ -54,5 +55,15 @@ public class ChatroomController {
         logger.info("输出userID: " + userId);
         //ResponseJson json = userInfoService.getByUserId(userId);
         return userInfoService.getByUserId(userId);
+    }
+
+    @RequestMapping(value = "/add_friend", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseJson addfriend(HttpSession session, @RequestParam String findName) {
+        Long userId = (Long) session.getAttribute(Constant.USER_TOKEN);
+        //ResponseJson json = userInfoService.getByUserId(userId);
+        logger.info("接收添加好友请求");
+        System.out.println(userId);
+        return userInfoService.contact(userId, findName);
     }
 }
