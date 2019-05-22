@@ -48,9 +48,6 @@ public class SecurityServiceImpl implements SecurityService{
         if (userId == null) {
             return new ResponseJson().error("请先登录！");
         }
-        session.removeAttribute(Constant.USER_TOKEN);
-        System.out.println(Constant.onlineUserMap.get(String.valueOf(userId.toString())));//当页面跳转的时候就已经解除握手实列并清除在线用户
-        Constant.onlineUserMap.remove(String.valueOf(userId.toString()));
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户已注销登录!", userId));
         System.out.println(Constant.webSocketHandshakerMap.size());
         return new ResponseJson().success();
