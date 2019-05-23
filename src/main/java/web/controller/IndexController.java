@@ -34,7 +34,12 @@ public class IndexController {
         mav.addObject("message", "Hello Spring MVC");
         return mav;
     }
-
+    @RequestMapping("login_new")
+    public ModelAndView handleRequest99(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView mav = new ModelAndView("login_new");
+        //mav.addObject("message", "Hello Spring MVC");
+        return mav;
+    }
     @RequestMapping("showUser")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("show");
