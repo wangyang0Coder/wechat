@@ -16,6 +16,17 @@ public class UserInfo {
     private String email;
     private List<Contact> friendList;
     private List<Belong> groupList;
+    private List<MessageInfo> messageList;
+
+    public List<MessageInfo> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<MessageInfo> messageList) {
+        this.messageList = messageList;
+    }
+
+
 
     public String getEmail() {
         return email;

@@ -83,3 +83,27 @@ INSERT INTO contact VALUES (15,4,2);
 INSERT INTO contact VALUES (16,3,4);
 INSERT INTO contact VALUES (17,3,5);
 INSERT INTO contact VALUES (18,5,4);
+
+/**消息表
+    private int id;
+    private String fromUserId;
+    private String toUserId;
+    private String toGroupId;
+    private String content;
+    private String type;
+    private String fileUrl;
+    private String originalFilename;
+    private String fileSize;
+ */
+CREATE TABLE message (
+  Id int NOT NULL AUTO_INCREMENT,
+  fromUserId varchar(255),
+  toUserId varchar(255),
+  toGroupId varchar(255),
+  content varchar(255),
+  type varchar(255),
+  fileUrl varchar(255),
+  originalFilename varchar(255),
+  fileSize varchar(255),
+  PRIMARY KEY (Id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

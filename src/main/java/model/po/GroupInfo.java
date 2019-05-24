@@ -13,8 +13,17 @@ public class GroupInfo {
     private String groupName;
     private String groupAvatarUrl;
     private List<Belong> members;
+    private List<MessageInfo> messageList;
     public GroupInfo() {
 
+    }
+
+    public List<MessageInfo> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<MessageInfo> messageList) {
+        this.messageList = messageList;
     }
 
     public long getGroupId() {

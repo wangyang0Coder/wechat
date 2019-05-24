@@ -8,47 +8,88 @@ import java.util.Date;
  * Description:消息类
  */
 public class MessageInfo {
-    private String sendId;
-    private String receiveId;
-    private String message;
-    private Date time;
+    private int id;
+    private String fromUserId;
+    private String toUserId;
+    private String toGroupId;
+    private String content;
+    private String type;
+    private String fileUrl;
+    private String originalFilename;
+    private String fileSize;
 
-    public MessageInfo(String sendId, String receiveId, String message, Date time) {
-        this.sendId = sendId;
-        this.receiveId = receiveId;
-        this.message = message;
-        this.time = time;
+    public MessageInfo() {
     }
 
-    public String getSendId() {
-        return sendId;
+    public int getId() {
+        return id;
     }
 
-    public void setSendId(String sendId) {
-        this.sendId = sendId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getReceiveId() {
-        return receiveId;
+    public String getFromUserId() {
+        return fromUserId;
     }
 
-    public void setReceiveId(String receiveId) {
-        this.receiveId = receiveId;
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getToUserId() {
+        return toUserId;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
     }
 
-    public Date getTime() {
-        return time;
+    public String getToGroupId() {
+        return toGroupId;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setToGroupId(String toGroupId) {
+        this.toGroupId = toGroupId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
+
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
+    }
+
+    public String getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
 }
