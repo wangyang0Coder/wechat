@@ -253,7 +253,7 @@ var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
             '<h5 class="media-heading">' + originalFilename + '</h5>' +
             '<span>' + fileSize + '</span>' +
             '</div>' +
-            '<a href="' + fileUrl + '" class="media-right">' +
+            '<a href="' + fileUrl + '" class="media-right" target="_blank">' +
             '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
             '</a>' +
             '</div>' +
@@ -298,7 +298,7 @@ var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
             '<h5 class="media-heading">' + originalFilename + '</h5>' +
             '<span>' + fileSize + '</span>' +
             '</div>' +
-            '<a href="' + fileUrl + '" class="media-right">' +
+            '<a href="' + fileUrl + '" class="media-right" target="_blank" >' +
             '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
             '</a>' +
             '</div>' +
@@ -386,7 +386,7 @@ $(".myfile").on("fileuploaded", function (event, data, previewId, index) {
         '<li>' +
         '<div class="send-file-shown">' +
         '<div class="media">' +
-        '<a href="' + fileUrl + '" class="media-left">' +
+        '<a href="' + fileUrl + '" class="media-left" target="_blank">' +
         '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
         '</a>' +
         '<div class="media-body"> ' +
