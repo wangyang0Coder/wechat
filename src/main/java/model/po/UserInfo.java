@@ -13,9 +13,25 @@ public class UserInfo {
     private String userName;
     private String password;
     private String avatarUrl;
+    private String email;
     private List<Contact> friendList;
     private List<Belong> groupList;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public UserInfo(String userName, String password, String avatarUrl, String email) {
+
+        this.userName = userName;
+        this.password = password;
+        this.avatarUrl = avatarUrl;
+        this.email = email;
+    }
     /*public UserInfo(int userId, String userName, String password, String avatarUrl) {
         this.userId = userId;
         this.userName = userName;
@@ -88,5 +104,11 @@ public class UserInfo {
     @Override
     public String toString() {
         return this.userId+" "+this.userName;
+    }
+    public String totoString(){
+        return this.userId+"\n"
+                +this.userName+"\n"
+                +this.avatarUrl+"\n"
+                +this.email+"\n";
     }
 }

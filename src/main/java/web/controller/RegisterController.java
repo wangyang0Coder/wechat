@@ -15,9 +15,6 @@ import service.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 
 /**
  * @Author: Azhu
@@ -33,7 +30,7 @@ public class RegisterController {
 
     @RequestMapping(value = {"/toRegister"}, method = RequestMethod.GET)
     public String toRegister() {
-        return "register";//这里是返回html名称
+        return "/register";//这里是返回html名称
     }
 
     @RequestMapping(value = {"/reg", "/register"}, method = RequestMethod.POST)
@@ -41,9 +38,10 @@ public class RegisterController {
     public ResponseJson Register(HttpSession session,
                                  @RequestParam String username,
                                  @RequestParam String password,
-                                 @RequestParam String avatarShow) {
+                                 @RequestParam String avatarShow,
+                                 @RequestParam String mail) {
         logger.info("收到注册请求");
-        return registerService.register(username, password, avatarShow, session);
+        return registerService.register(username, password, avatarShow, mail,session);
     }
 
     @RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)

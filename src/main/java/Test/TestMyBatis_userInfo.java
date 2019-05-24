@@ -62,7 +62,7 @@ public class TestMyBatis_userInfo {
         List<UserInfo> list=userInfoMapper.listAll();
         for(UserInfo c:list)
         {
-            System.out.println(c.toString());
+            System.out.println(c.totoString());
         }
     }
 

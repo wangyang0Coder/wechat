@@ -33,10 +33,10 @@ public class RegisterServiceImpl implements RegisterService {
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public ResponseJson register(String username, String password, String avatarShow, HttpSession session) {
+    public ResponseJson register(String username, String password, String avatarShow, String mail, HttpSession session) {
         UserInfo userInfo = userInfoMapper.getByUsername(username);
         if (userInfo == null) {
-            userInfo = new UserInfo(username, password, avatarShow);
+            userInfo = new UserInfo(username, password, avatarShow,mail);
             userInfoMapper.insert(userInfo);
             LOGGER.info(userInfo.toString() + "注册成功并写入数据库");
             return new ResponseJson().success("注册成功");

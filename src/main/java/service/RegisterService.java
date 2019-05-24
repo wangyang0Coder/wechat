@@ -13,5 +13,5 @@ import javax.servlet.http.HttpSession;
  */
 public interface RegisterService {
     ResponseJson uploadAvatar(MultipartFile file, HttpServletRequest request);
-    ResponseJson register(String username, String password, String avatarShow, HttpSession session);
+    ResponseJson register(String username, String password, String avatarShow, String mail,HttpSession session);
 }

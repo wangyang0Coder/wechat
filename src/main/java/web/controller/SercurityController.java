@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.RegisterService;
 import service.SecurityService;
 
 
@@ -27,10 +26,10 @@ public class SercurityController {
     SecurityService securityService;
 
 
-    //入口  url=http://localhost:8080/wechat/Login -> login.html
+    //入口  url=http://localhost:8080/wechat/Login -> login_old.html
     @RequestMapping(value = {"/login", "/Login", "/"}, method = RequestMethod.GET)
     public String toLogin() {
-        return "login";//这里是返回html名称
+        return "/login";//这里是返回html名称
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
@@ -48,4 +47,10 @@ public class SercurityController {
         logger.info("收到登出请求");
         return securityService.logout(session);
     }
+    @RequestMapping(value = "sendPasswordMail", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseJson sendPasswordMail(HttpSession session,@RequestParam String username) {
+        return securityService.sendMail(session,username);
+    }
+
 }

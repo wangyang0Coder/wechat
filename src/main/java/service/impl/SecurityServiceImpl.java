@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.SecurityService;
 import util.Constant;
+import util.MailUtil;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.text.MessageFormat;
 
@@ -51,5 +53,22 @@ public class SecurityServiceImpl implements SecurityService{
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户已注销登录!", userId));
         System.out.println(Constant.webSocketHandshakerMap.size());
         return new ResponseJson().success();
+    }
+
+    @Override
+    public ResponseJson sendMail(HttpSession session, String username) {
+        UserInfo userInfo = userInfoMapper.getByUsername(username);
+        if (userInfo == null) {
+            return new ResponseJson().error("不存在该用户名,请确认");
+        }
+        if (userInfo.getEmail()==null) {
+            return new ResponseJson().error("之前没有设置邮箱,无法找回密码");
+        }
+        try {
+            MailUtil.sendMail(userInfo);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return new ResponseJson().success().setMsg("密码已经发送至你邮箱");
     }
 }

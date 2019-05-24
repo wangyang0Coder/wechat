@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface UserInfoMapper {
 
-    @Insert("insert into user (userId,userName,password,avatarUrl) values (#{userId},#{userName},#{password},#{avatarUrl})")
+    @Insert("insert into user (userId,userName,password,avatarUrl,email) values (#{userId},#{userName},#{password},#{avatarUrl},#{email})")
     void insert(UserInfo userInfo);
 
     @Update("update user set userName=#{userName},password=#{password},avatarUrl=#{avatarUrl} where userId=#{userId}")

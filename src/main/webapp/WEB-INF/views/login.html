@@ -1,51 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>小小的聊天室——登录</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="keywords"
-          content="Transparent Sign In Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements"/>
-    <script type="application/x-javascript">
-        addEventListener("load", function () {
-            setTimeout(hideURLbar, 0);
-        }, false);
-
-        function hideURLbar() {
-            window.scrollTo(0, 1);
-        }
-    </script>
-    <script src="static/js/common/jquery-1.9.1.min.js"></script>
-    <link rel="icon" href="static/img/chat.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="static/css/common/font-awesome.css"/> <!-- Font-Awesome-Icons-CSS -->
-    <link rel="stylesheet" href="static/css/login.css" type="text/css" media="all"/> <!-- Style-CSS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wechat | Login</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/fonts/font-awesome.css" rel="stylesheet">
+    <link href="static/css/animate.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
 </head>
-<body class="background">
-<div class="header-w3l">
-    <h1>小小的聊天室</h1>
-</div>
-<div class="main-content-agile">
-    <div class="sub-main-w3">
-        <h2>登录</h2>
-        <form>
 
-            <div class="icon1">
-                <input placeholder="用户名" id="username" type="text"/>
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">WeChat</h1>
             </div>
+            <h3>Welcome to WeChat</h3>
+            <p>
+                基于ssm+netty的在线聊天系统
+            </p>
+            <p>Login in. To see it in action.</p>
+            <form class="m-t" role="form" action="index.html">
+                <div class="form-group">
+                    <input type="text" id="username" class="form-control" placeholder="Username" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required="">
+                </div>
+                <button type="button" class="btn btn-primary block full-width m-b" onclick="login()">Login</button>
 
-            <div class="icon2">
-                <input placeholder="密码" id="password" type="password"/>
-            </div>
-
-            <div class="clear"></div>
-            <input type="button" value="登录" onclick="login()"/>
-            <a type="button" href="toRegister">注册账户</a>
-        </form>
+                <a href="#" onclick="getPassword()"><small>Forgot password?</small></a>
+                <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="toRegister">Create an account</a>
+            </form>
+            <span style="white-space:pre"></span>
+            <td width="18%">
+                <font color="#000000" size="6">
+                    <div id="time1">
+                        <script type="text/javascript">
+                            //非动态显示
+                             //document.getElementById('time1').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());
+                            //动态显示
+                             setInterval("document.getElementById('time1').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+                        </script>
+                    </div>
+                </font>
+            </td>
+        </div>
     </div>
-</div>
-<div class="footer">
-    <p>&copy; 2018 CSCW back-end Kanarien, All Rights Reserved </p>
-</div>
+    <!-- Mainly scripts -->
+    <script src="static/js/common/jquery-1.9.1.min.js"></script>
+    <script src="static/js/common/bootstrap.min.js"></script>
+
 </body>
 <script type="text/javascript">
     function login() {
@@ -60,8 +68,34 @@
             async: false,
             success: function (data) {
                 if (data.status == 200) {
+                    //alert("转到聊天室界面");
                     window.location.href = "chatroom";
-                    console.log("转到聊天室界面");
+                    //console.log("转到聊天室界面");
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+    function getPassword() {
+        //console.info($("#username").val());
+        if( $("#username").val()==""){
+            alert("请在用户名处输入");
+            return ;
+        }
+        $.ajax({
+            type: 'POST',
+            url: 'sendPasswordMail',
+            dataType: 'json',
+            data: {
+                username: $("#username").val(),
+            },
+            async: false,
+            success: function (data) {
+                if (data.status == 200) {
+                    //alert("转到聊天室界面");
+                    alert("密码已发送至你邮箱");
+                    //console.log("转到聊天室界面");
                 } else {
                     alert(data.msg);
                 }
