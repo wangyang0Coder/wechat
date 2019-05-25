@@ -1,5 +1,7 @@
 package model.po;
 
+import util.ChatType;
+
 import java.util.Date;
 
 /**
@@ -9,9 +11,9 @@ import java.util.Date;
  */
 public class MessageInfo {
     private int id;
-    private String fromUserId;
-    private String toUserId;
-    private String toGroupId;
+    private Integer fromUserId;
+    private Integer toUserId;
+    private Integer toGroupId;
     private String content;
     private String type;
     private String fileUrl;
@@ -19,6 +21,32 @@ public class MessageInfo {
     private String fileSize;
 
     public MessageInfo() {
+    }
+    /*
+        消息发送构造函数
+     */
+    public MessageInfo(String fromUserId, String to, String content, ChatType type) {
+        this.fromUserId=Integer.valueOf(fromUserId);
+        this.content=content;
+        if(type==ChatType.SINGLE_SENDING) {
+            this.toUserId=Integer.valueOf(to);
+        }else{
+            this.toGroupId=Integer.valueOf(to);
+        }
+        this.type=type.toString();
+    }
+
+    public MessageInfo(String fromUserId, String to, String originalFilename, String fileSize, String fileUrl, ChatType type) {
+        this.fromUserId=Integer.valueOf(fromUserId);
+        this.originalFilename=originalFilename;
+        this.fileSize=fileSize;
+        this.fileUrl=fileUrl;
+        if(type==ChatType.FILE_MSG_SINGLE_SENDING) {
+            this.toUserId=Integer.valueOf(to);
+        }else{
+            this.toGroupId=Integer.valueOf(to);
+        }
+        this.type=type.toString();
     }
 
     public int getId() {
@@ -29,27 +57,27 @@ public class MessageInfo {
         this.id = id;
     }
 
-    public String getFromUserId() {
+    public Integer getFromUserId() {
         return fromUserId;
     }
 
-    public void setFromUserId(String fromUserId) {
+    public void setFromUserId(Integer fromUserId) {
         this.fromUserId = fromUserId;
     }
 
-    public String getToUserId() {
+    public Integer getToUserId() {
         return toUserId;
     }
 
-    public void setToUserId(String toUserId) {
+    public void setToUserId(Integer toUserId) {
         this.toUserId = toUserId;
     }
 
-    public String getToGroupId() {
+    public Integer getToGroupId() {
         return toGroupId;
     }
 
-    public void setToGroupId(String toGroupId) {
+    public void setToGroupId(Integer toGroupId) {
         this.toGroupId = toGroupId;
     }
 
@@ -91,5 +119,14 @@ public class MessageInfo {
 
     public void setFileSize(String fileSize) {
         this.fileSize = fileSize;
+    }
+    @Override
+    public String toString(){
+        String s=toGroupId==null? toUserId.toString():toGroupId.toString();
+        return "\n"+
+                fromUserId.toString()+"\n" +
+                s+"\n" +
+                content+"\n" +
+                type;
     }
 }

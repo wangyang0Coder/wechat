@@ -96,10 +96,10 @@ INSERT INTO contact VALUES (18,5,4);
     private String fileSize;
  */
 CREATE TABLE message (
-  Id int NOT NULL AUTO_INCREMENT,
-  fromUserId varchar(255),
-  toUserId varchar(255),
-  toGroupId varchar(255),
+  id int NOT NULL AUTO_INCREMENT,
+  fromUserId int,
+  toUserId int,
+  toGroupId int,
   content varchar(255),
   type varchar(255),
   fileUrl varchar(255),

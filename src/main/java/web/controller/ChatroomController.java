@@ -51,7 +51,7 @@ public class ChatroomController {
     @RequestMapping(value = "/get_userinfo", method = RequestMethod.POST)
     @ResponseBody
     public ResponseJson getUserInfo(HttpSession session) {
-        Long userId = (Long) session.getAttribute(Constant.USER_TOKEN);
+        Integer userId = (Integer) session.getAttribute(Constant.USER_TOKEN);
         logger.info("输出userID: " + userId);
         //ResponseJson json = userInfoService.getByUserId(userId);
         return userInfoService.getByUserId(userId);
@@ -60,7 +60,7 @@ public class ChatroomController {
     @RequestMapping(value = "/add_friend", method = RequestMethod.POST)
     @ResponseBody
     public ResponseJson addfriend(HttpSession session, @RequestParam String findName) {
-        Long userId = (Long) session.getAttribute(Constant.USER_TOKEN);
+        Integer userId = (Integer) session.getAttribute(Constant.USER_TOKEN);
         //ResponseJson json = userInfoService.getByUserId(userId);
         logger.info("接收添加好友请求");
         System.out.println(userId);

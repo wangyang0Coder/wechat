@@ -31,5 +31,6 @@
         <mapper class="model.mapper.BelongMapper"/>
         <mapper class="model.mapper.GroupInfoMapper"/>
         <mapper class="model.mapper.ContactMapper"/>
+        <mapper class="model.mapper.MessageInfoMapper"/>
     </mappers>
 </configuration>

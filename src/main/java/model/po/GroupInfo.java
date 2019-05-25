@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class GroupInfo {
 
-    private long groupId;
+    private Integer groupId;
     private String groupName;
     private String groupAvatarUrl;
     private List<Belong> members;
@@ -26,11 +26,11 @@ public class GroupInfo {
         this.messageList = messageList;
     }
 
-    public long getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
 

@@ -39,8 +39,8 @@ public class TestMyBatis_groupInfo {
     public void Test_get(){
         SqlSession session= MyBatisUtil.getSesssion();
         GroupInfoMapper groupInfoMapper=session.getMapper(GroupInfoMapper.class);
-        GroupInfo groupInfo=groupInfoMapper.get(1);
-        System.out.println(groupInfo);
+        GroupInfo groupInfo=groupInfoMapper.getByGroupId(1);
+        System.out.println(groupInfo.getMessageList().get(0));
     }
     @Test
     public void Test_update(){

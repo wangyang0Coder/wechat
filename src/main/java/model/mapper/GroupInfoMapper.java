@@ -21,7 +21,7 @@ public interface GroupInfoMapper {
     void delete(long id);
 
     @Select("select * from group_ where  groupId=#{id}")
-    GroupInfo get(long id);
+    GroupInfo get(Integer id);
 
     @Select("select * from group_")
         @Results({
@@ -35,7 +35,18 @@ public interface GroupInfoMapper {
     @Results({
             @Result(property = "groupId", column = "groupId"),
             @Result(property = "members", javaType = List.class, column = "groupId",
-                    many = @Many(select = "model.mapper.BelongMapper.listByGroupId"))
+                    many = @Many(select = "model.mapper.BelongMapper.listByGroupId")),
+            @Result(property = "messageList",javaType = List.class,column = "groupId",
+                    many = @Many(select = "model.mapper.MessageInfoMapper.listByGroupId"))
     })
-    GroupInfo getByGroupId(long id);
+    GroupInfo getByGroupId(Integer id);
+
+
+    @Select("select * from group_ where groupId = #{id}")
+    @Results({
+            @Result(property = "groupId", column = "groupId"),
+            @Result(property = "messageList",javaType = List.class,column = "groupId",
+                    many = @Many(select = "model.mapper.MessageInfoMapper.listByGroupId"))
+    })
+    GroupInfo getByGroupId_1(Integer id);
 }

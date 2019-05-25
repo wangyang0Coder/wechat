@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UserInfo {
 
-    private long userId;
+    private Integer userId;
     private String userName;
     private String password;
     private String avatarUrl;
@@ -18,6 +18,7 @@ public class UserInfo {
     private List<Belong> groupList;
     private List<MessageInfo> messageList;
 
+
     public List<MessageInfo> getMessageList() {
         return messageList;
     }
@@ -25,8 +26,6 @@ public class UserInfo {
     public void setMessageList(List<MessageInfo> messageList) {
         this.messageList = messageList;
     }
-
-
 
     public String getEmail() {
         return email;
@@ -64,11 +63,11 @@ public class UserInfo {
         this.avatarUrl = avatarShow;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

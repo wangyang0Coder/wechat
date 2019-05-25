@@ -9,9 +9,9 @@ import model.vo.ResponseJson;
  * Description:
  */
 public interface UserInfoService {
-    ResponseJson getByUserId(Long userId);
+    ResponseJson getByUserId(Integer userId);
 
-    UserInfo get(long i);
+    UserInfo get(Integer i);
 
-    ResponseJson contact(Long userId, String addUserId);
+    ResponseJson contact(Integer userId, String addUserId);
 }

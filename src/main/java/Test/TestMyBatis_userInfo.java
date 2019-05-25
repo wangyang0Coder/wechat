@@ -4,6 +4,7 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import model.mapper.UserInfoMapper;
 import model.po.Belong;
 import model.po.Contact;
+import model.po.MessageInfo;
 import model.po.UserInfo;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class TestMyBatis_userInfo {
     public void Test_getByUserId() {
         SqlSession session = MyBatisUtil.getSesssion();
         UserInfoMapper userInfoMapper = session.getMapper(UserInfoMapper.class);
-        UserInfo userInfo = userInfoMapper.getByUserId(1L);
+        UserInfo userInfo = userInfoMapper.getByUserId(1);
         List<Contact> userContact = userInfo.getFriendList();
         logger.info("输出朋友关系：");
         for (Contact c : userContact) {
@@ -80,6 +81,11 @@ public class TestMyBatis_userInfo {
         List<Belong> userBelong = userInfo.getGroupList();
         for (Belong b : userBelong) {
             logger.info(userInfo.getUserName() + ":-----:" + b.getGroupInfo().getGroupName());
+        }
+        logger.info("输出群组消息：");
+        List<MessageInfo> messageInfos = userInfo.getGroupList().get(0).getGroupInfo().getMessageList();
+        for (MessageInfo m : messageInfos) {
+            logger.info(m.getContent());
         }
 
     }

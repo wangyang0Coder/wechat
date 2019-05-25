@@ -18,7 +18,7 @@ public interface BelongMapper {
     @Results({
             @Result(property = "userInfo", column = "userId", one = @One(select = "model.mapper.UserInfoMapper.get")),
             //column是执行one = @One(select = "model.mapper.UserInfoMapper.get"))的传入
-            @Result(property = "groupInfo", column = "groupId", one = @One(select = "model.mapper.GroupInfoMapper.get"))
+            @Result(property = "groupInfo", column = "groupId", one = @One(select = "model.mapper.GroupInfoMapper.getByGroupId"))
     })
     public List<Belong> listByGroupId(int id);
 
@@ -26,7 +26,7 @@ public interface BelongMapper {
     @Results({
             @Result(property = "userInfo",column = "userId",one = @One(select = "model.mapper.UserInfoMapper.get")),
             //column是执行one = @One(select = "model.mapper.UserInfoMapper.get"))的传入
-            @Result(property = "groupInfo",column = "groupId",one = @One(select = "model.mapper.GroupInfoMapper.get"))
+            @Result(property = "groupInfo",column = "groupId",one = @One(select = "model.mapper.GroupInfoMapper.getByGroupId_1"))
     })
     public List<Belong> listByUserId(int id);
 }

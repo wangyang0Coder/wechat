@@ -19,16 +19,17 @@ public interface UserInfoMapper {
     void update(UserInfo userInfo);
 
     @Delete("delete from user where userId= #{id}")
-    void delete(long id);
+    void delete(Integer id);
 
-    @Select("select * from user where userId=#{id}")
-    UserInfo get(long id);
+    @Select("select userId,userName,avatarUrl,email from user where userId=#{id}")//这里不能获取密码字段 这里返回的应该是一个简单的UserInfo对象
+    UserInfo get(Integer id);
 
     @Select("select * from user")
     List<UserInfo> listAll();
 
     @Select("select * from user where userName=#{username}")
-    UserInfo getByUsername(String username);
+    UserInfo getByUsername(String username);//这里用户登录可以获取密码  发送邮件也应使用这里
+
 
     @Select("select * from user where userId=#{id}")
     @Results({
@@ -36,7 +37,9 @@ public interface UserInfoMapper {
             @Result(property = "friendList", javaType = List.class, column = "userId",
                     many = @Many(select = "model.mapper.ContactMapper.listByUserId")),
             @Result(property = "groupList", javaType = List.class, column = "userId",
-                    many = @Many(select = "model.mapper.BelongMapper.listByUserId"))
+                    many = @Many(select = "model.mapper.BelongMapper.listByUserId")),
+            @Result(property = "messageList", javaType = List.class, column = "userId",
+                    many = @Many(select = "model.mapper.MessageInfoMapper.listByUserId"))
     })
-    UserInfo getByUserId(Long id);
+    UserInfo getByUserId(Integer id);
 }

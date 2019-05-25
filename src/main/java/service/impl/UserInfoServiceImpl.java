@@ -24,19 +24,19 @@ public class UserInfoServiceImpl implements UserInfoService{
     ContactMapper contactMapper;
 
     @Override
-    public ResponseJson getByUserId(Long userId) {
+    public ResponseJson getByUserId(Integer userId) {
         UserInfo userInfo = userInfoMapper.getByUserId(userId);
         return new ResponseJson().success()
                 .setData("userInfo", userInfo);
     }
 
     @Override
-    public UserInfo get(long i) {
+    public UserInfo get(Integer i) {
         return userInfoMapper.get(i);
     }
 
     @Override
-    public ResponseJson contact(Long userId, String findName) {
+    public ResponseJson contact(Integer userId, String findName) {
         UserInfo userInfo = userInfoMapper.getByUsername(findName);
         if (userInfo == null) {
             return new ResponseJson().error("不存在该用户名,请检查");

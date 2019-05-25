@@ -5,9 +5,11 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import model.mapper.GroupInfoMapper;
+import model.mapper.MessageInfoMapper;
 import model.mapper.UserInfoMapper;
 import model.po.Belong;
 import model.po.GroupInfo;
+import model.po.MessageInfo;
 import model.po.UserInfo;
 import model.vo.ResponseJson;
 import org.slf4j.Logger;
@@ -38,6 +40,9 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private MessageInfoMapper messageInfoMapper;
+
     @Override
     public void login(JSONObject param, ChannelHandlerContext ctx) {
         String userId = param.get("userId").toString();
@@ -52,13 +57,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
-        LOGGER.info("程序执行singleSend");
+
         String fromUserId = param.get("fromUserId").toString();
-        LOGGER.info(fromUserId);
         String toUserId = param.get("toUserId").toString();
-        LOGGER.info(toUserId);
         String content = param.get("content").toString();
-        LOGGER.info(content);
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
         if (toUserCtx == null) {
             String responseJson = new ResponseJson()
@@ -71,6 +73,8 @@ public class ChatServiceImpl implements ChatService {
                     .setData("content", content)
                     .setData("type", ChatType.SINGLE_SENDING)
                     .toString();
+            MessageInfo messageInfo=new MessageInfo(fromUserId,toUserId,content,ChatType.SINGLE_SENDING);
+            messageInfoMapper.insert(messageInfo);
             sendMessage(toUserCtx, responseJson);
         }
     }
@@ -78,13 +82,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void groupSend(JSONObject param, ChannelHandlerContext ctx) {
         String fromUserId = param.get("fromUserId").toString();
-        LOGGER.info(fromUserId);
         String toGroupId = (String) param.get("toGroupId").toString();
-        LOGGER.info(toGroupId);
         String content = (String) param.get("content");
-        LOGGER.info(content);
-        long togrouId = Long.parseLong(toGroupId);
-        long fromuserId = Long.parseLong(fromUserId);
+        Integer togrouId = Integer.parseInt(toGroupId);
+        Integer fromuserId = Integer.parseInt(fromUserId);
         GroupInfo groupInfo = groupInfoMapper.getByGroupId(togrouId);
         String responseJson = new ResponseJson().success()
                 .setData("fromUserId", fromUserId)
@@ -92,6 +93,8 @@ public class ChatServiceImpl implements ChatService {
                 .setData("toGroupId", toGroupId)
                 .setData("type", ChatType.GROUP_SENDING)
                 .toString();
+        MessageInfo messageInfo=new MessageInfo(fromUserId,toGroupId,content,ChatType.GROUP_SENDING);
+        messageInfoMapper.insert(messageInfo);
 
         groupInfo.getMembers().stream()//使用JDK1.8 lambda 新语法
                 .forEach(member -> {
@@ -135,6 +138,8 @@ public class ChatServiceImpl implements ChatService {
                     .setData("fileUrl", fileUrl)
                     .setData("type", ChatType.FILE_MSG_SINGLE_SENDING)
                     .toString();
+            MessageInfo messageInfo=new MessageInfo(fromUserId,toUserId,originalFilename,fileSize,fileUrl,ChatType.FILE_MSG_SINGLE_SENDING);
+            messageInfoMapper.insert(messageInfo);
             sendMessage(toUserCtx, responseJson);
         }
     }
@@ -146,7 +151,7 @@ public class ChatServiceImpl implements ChatService {
         String originalFilename = (String) param.get("originalFilename");
         String fileSize = (String) param.get("fileSize");
         String fileUrl = (String) param.get("fileUrl");
-        GroupInfo groupInfo = groupInfoMapper.getByGroupId(Long.valueOf(toGroupId));
+        GroupInfo groupInfo = groupInfoMapper.getByGroupId(Integer.valueOf(toGroupId));
         String responseJson = new ResponseJson().success()
                 .setData("fromUserId", fromUserId)
                 .setData("toGroupId", toGroupId)
@@ -155,6 +160,8 @@ public class ChatServiceImpl implements ChatService {
                 .setData("fileUrl", fileUrl)
                 .setData("type", ChatType.FILE_MSG_GROUP_SENDING)
                 .toString();
+        MessageInfo messageInfo=new MessageInfo(fromUserId,toGroupId,originalFilename,fileSize,fileUrl,ChatType.FILE_MSG_GROUP_SENDING);
+        messageInfoMapper.insert(messageInfo);
         groupInfo.getMembers().stream()
                 .forEach(member -> {
                     ChannelHandlerContext toCtx = Constant.onlineUserMap.get(String.valueOf(member.getUserInfo().getUserId()));
@@ -193,6 +200,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private void sendMessage(ChannelHandlerContext ctx, String message) {
+
         ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
     }
 
