@@ -3,18 +3,17 @@ function setUserInfo() {
         type: 'POST',
         url: 'chatroom/get_userinfo',
         dataType: 'json',
-        async: true,
         success: function (data) {
-            console.log("获取用户信息...");
             if (data.status == 200) {
-                var userInfo = data.data.userInfo;
+                console.log("获取用户信息...开始填充前端消息组");
+                userInfo = data.data.userInfo;
                 userId = userInfo.userId;
+                setSentMessageMap();//初始化前端消息对象
+                console.info(userInfo);
                 $("#username").html(userInfo.username);
                 $("#avatarUrl").attr("src", userInfo.avatarUrl);
-                console.log(userInfo.avatarUrl)
                 var groupListHTML = "";
                 var groupList = userInfo.groupList;
-                console.log(groupList);
                 for (var i = 0; i < groupList.length; i++) {//userInfo.groupList;对象没有初始化
                     groupListHTML +=
                         '<li>' +
@@ -29,7 +28,6 @@ function setUserInfo() {
                 $('.conLeft ul').append(groupListHTML);
                 var friendListHTML = "";
                 var friendList = userInfo.friendList;
-                console.log(friendList[0]);
                 for (var i = 0; i < friendList.length; i++) {
                     friendListHTML +=
                         '<li>' +
@@ -42,9 +40,11 @@ function setUserInfo() {
                         '</li>';
                 }
                 // 设置好友列表
+                console.info("填充好友列表")
                 $('.conLeft ul').append(friendListHTML);
                 // 绑定好友框点击事件
                 $('.conLeft ul li').on('click', friendLiClickEvent);
+                setHistoryMessage();
             } else {
                 alert(data.msg);
             }
@@ -52,30 +52,210 @@ function setUserInfo() {
     });
 }
 
+function switchMessage(message) {
+
+    var fromUserId = message.fromUserId;
+    var toUserId = message.toUserId;
+    var toGroupId = message.toGroupId;
+    var originalFilename = message.originalFilename;
+    var fileSize = message.fileSize;
+    var fileUrl = message.fileUrl;
+    var fromAvatarUrl;
+    var $receiveLi;
+    switch(message.type) {
+        case "SINGLE_SENDING":
+            $('.conLeft').find('span.hidden-userId').each(function () {
+                if (this.innerHTML == fromUserId) {
+                    fromAvatarUrl = $(this).parent(".liRight")//获取发送者的头像
+                        .siblings(".liLeft").children('img').attr("src");
+                    $receiveLi = $(this).parent(".liRight").parent("li");
+                }
+            })
+            var avatarUrl = $('#avatarUrl').attr("src");
+            if(message.fromUserId==userId){//说明是该用户发送的消息
+                var news=message.content;
+                var msg = '';
+                msg += '<li>' +
+                    '<div class="news">' + news + '</div>' +
+                    '<div class="nesHead"><img src="' + avatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理：
+                processMsgBox.sendMsg(msg, toUserId, toGroupId);
+            }else{
+                var content=message.content;
+                var answer = '';
+                answer += '<li>' +
+                    '<div class="answers">' + content + '</div>' +
+                    '<div class="answerHead"><img src="' + fromAvatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理
+                processMsgBox.receiveSingleMsg(answer, fromUserId);
+            }
+            break;
+        case "GROUP_SENDING":
+            $('.conLeft').find('span.hidden-userId').each(function () {
+                if (this.innerHTML == fromUserId) {
+                    fromAvatarUrl = $(this).parent(".liRight")
+                        .siblings(".liLeft").children('img').attr("src");
+                    /* $receiveLi = $(this).parent(".liRight").parent("li"); */
+                }
+            })
+            $('.conLeft').find('span.hidden-groupId').each(function () {
+                if (this.innerHTML == toGroupId) {
+                    $receiveLi = $(this).parent(".liRight").parent("li");
+                }
+            })
+            var avatarUrl = $('#avatarUrl').attr("src");
+            if(message.fromUserId==userId){//说明是该用户发送的消息
+                var news=message.content;
+                var msg = '';
+                msg += '<li>' +
+                    '<div class="news">' + news + '</div>' +
+                    '<div class="nesHead"><img src="' + avatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理：
+                processMsgBox.sendMsg(msg, toUserId, toGroupId);
+            }else{
+                var content=message.content;
+                var answer = '';
+                answer += '<li>' +
+                    '<div class="answers">' + content + '</div>' +
+                    '<div class="answerHead"><img src="' + fromAvatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理
+                processMsgBox.receiveGroupMsg(answer, toGroupId);
+            }
+            break;
+        case "FILE_MSG_SINGLE_SENDING":
+            $('.conLeft').find('span.hidden-userId').each(function () {
+                if (this.innerHTML == fromUserId) {
+                    fromAvatarUrl = $(this).parent(".liRight")
+                        .siblings(".liLeft").children('img').attr("src");
+                    $receiveLi = $(this).parent(".liRight").parent("li");
+                }
+            })
+            var avatarUrl = $('#avatarUrl').attr("src");
+            if(message.fromUserId==userId){//说明是该用户发送的消息
+                var fileHtml =
+                    '<li>' +
+                    '<div class="send-file-shown">' +
+                    '<div class="media">' +
+                    '<a href="' + fileUrl + '" class="media-left" target="_blank">' +
+                    '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
+                    '</a>' +
+                    '<div class="media-body"> ' +
+                    '<h5 class="media-heading">' + originalFilename + '</h5>' +
+                    '<span>' + fileSize + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="nesHead"><img src="' + avatarUrl + '"/></div>' +
+                    '</li>';
+                //文件 消息框处理：
+                processMsgBox.sendFileMsg(fileHtml, toUserId, toGroupId);
+            }else{
+                var fileHtml =
+                    '<li>' +
+                    '<div class="receive-file-shown">' +
+                    '<div class="media">' +
+                    '<div class="media-body"> ' +
+                    '<h5 class="media-heading">' + originalFilename + '</h5>' +
+                    '<span>' + fileSize + '</span>' +
+                    '</div>' +
+                    '<a href="' + fileUrl + '" class="media-right" target="_blank">' +
+                    '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="answerHead"><img src="' + fromAvatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理
+                processMsgBox.receiveSingleMsg(fileHtml, fromUserId);
+            }
+            break;
+        case "FILE_MSG_GROUP_SENDING":
+            $('.conLeft').find('span.hidden-userId').each(function () {
+                if (this.innerHTML == fromUserId) {
+                    fromAvatarUrl = $(this).parent(".liRight")
+                        .siblings(".liLeft").children('img').attr("src");
+                    /* $receiveLi = $(this).parent(".liRight").parent("li"); */
+                }
+            })
+            $('.conLeft').find('span.hidden-groupId').each(function () {
+                if (this.innerHTML == toGroupId) {
+                    $receiveLi = $(this).parent(".liRight").parent("li");
+                }
+            })
+            var avatarUrl = $('#avatarUrl').attr("src");
+            if(message.fromUserId==userId){//说明是该用户发送的消息
+                var fileHtml =
+                    '<li>' +
+                    '<div class="send-file-shown">' +
+                    '<div class="media">' +
+                    '<a href="' + fileUrl + '" class="media-left" target="_blank">' +
+                    '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
+                    '</a>' +
+                    '<div class="media-body"> ' +
+                    '<h5 class="media-heading">' + originalFilename + '</h5>' +
+                    '<span>' + fileSize + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="nesHead"><img src="' + avatarUrl + '"/></div>' +
+                    '</li>';
+                //文件 消息框处理：
+                processMsgBox.sendFileMsg(fileHtml, toUserId, toGroupId);
+            }else{
+                var fileHtml =
+                    '<li>' +
+                    '<div class="receive-file-shown">' +
+                    '<div class="media">' +
+                    '<div class="media-body"> ' +
+                    '<h5 class="media-heading">' + originalFilename + '</h5>' +
+                    '<span>' + fileSize + '</span>' +
+                    '</div>' +
+                    '<a href="' + fileUrl + '" class="media-right" target="_blank">' +
+                    '<i class="glyphicon glyphicon-file" style="font-size:28pt;"></i>' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="answerHead"><img src="' + fromAvatarUrl + '"/></div>' +
+                    '</li>';
+                // 消息框处理
+                processMsgBox.receiveGroupMsg(fileHtml, toGroupId);
+            }
+            break;
+    }
+
+}
+function setHistoryMessage() {
+    var MessageList=userInfo.messageList;//这是历史单体消息填充
+    for(var i=0;i<MessageList.length;i++){
+        switchMessage(MessageList[i]);
+    }
+    var GroupList=userInfo.groupList;//这是历史群组消息填充
+    for(var i=0;i<GroupList.length;i++){
+        var GroupListMessage=GroupList[i].groupInfo.messageList;
+        for(var j=0;j<GroupListMessage.length;j++){
+            switchMessage(GroupListMessage[j]);
+            //console.info(GroupListMessage[j]);
+        }
+    }
+    $('.newsList li').empty();//清空暂存
+}
 
 function setSentMessageMap() {
     sentMessageMap = new SentMessageMap();
     sentMessageMap_Group = new SentMessageMap();
-    $.ajax({
-        type: 'POST',
-        url: 'chatroom/get_userinfo',
-        dataType: 'json',
-        async: true,
-        success: function (data) {
-            console.log("获取用户信息...");
-            if (data.status == 200) {
-                var userInfo = data.data.userInfo;
-                var friendList = userInfo.friendList;
-                for (var i = 0; i < friendList.length; i++) {
-                    sentMessageMap.put(friendList[i].userInfo2.userId, new Array());
-                }
-                var groupList = userInfo.groupList;
-                for (var i = 0; i < groupList.length; i++) {
-                    sentMessageMap_Group.put(groupList[i].groupInfo.groupId, new Array());
-                }
-            }
-        }
-    });
+    var friendList = userInfo.friendList;
+    for (var i = 0; i < friendList.length; i++) {
+        sentMessageMap.put(friendList[i].userInfo2.userId, new Array());
+    }
+    var groupList = userInfo.groupList;
+    for (var i = 0; i < groupList.length; i++) {
+        sentMessageMap_Group.put(groupList[i].groupInfo.groupId, new Array());
+    }
+    console.log(sentMessageMap);
 }
 
 var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
@@ -165,7 +345,6 @@ var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
             alert("Websocket连接没有开启！");
         }
     },
-
     loginReceive: function () {
         console.log("userId为 " + userId + " 的用户登记到在线用户表成功！");
     },
@@ -221,7 +400,6 @@ var ws = {//登入函数 将用户信息注入Constant.onlineUserMap对象
             '<div class="answers">' + content + '</div>' +
             '<div class="answerHead"><img src="' + fromAvatarUrl + '"/></div>' +
             '</li>';
-
         // 消息框处理
         processMsgBox.receiveGroupMsg(answer, toGroupId);
         // 好友列表处理
@@ -455,7 +633,6 @@ $('.sendBtn').on('click', function () {
 
         // 消息框处理：
         processMsgBox.sendMsg(msg, toUserId, toGroupId)
-
         // 好友列表处理：
         var $sendLi = $('.conLeft').find('li.bg');
         processFriendList.sending(news, $sendLi);
@@ -497,7 +674,6 @@ $('.emjon li').on('click', function () {
     content = "[图片]";
     processFriendList.sending(content, $sendLi);
 })
-
 // 好友框点击事件
 function friendLiClickEvent() {
 
@@ -569,10 +745,9 @@ var processMsgBox = {
         }
 
         // 3. 把 调整后的消息html标签字符串 添加到已发送用户消息表
-        if (toUserId.length != 0) {
-            console.log(sentMessageMap);
-            console.log(sentMessageMap.get(toUserId));
+        if (toUserId!=null&&toUserId.length != 0) {
             sentMessageMap.get(toUserId).push($('.newsList li').last().prop("outerHTML"));
+
         } else {
             sentMessageMap_Group.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
         }
@@ -587,8 +762,9 @@ var processMsgBox = {
         $('.newsList').append(msg);
 
         // 2. 把消息html标签字符串 添加到已发送用户消息表
-        if (toUserId.length != 0) {
+        if (toUserId!=null&&toUserId.length != 0) {
             sentMessageMap.get(toUserId).push($('.newsList li').last().prop("outerHTML"));
+
         } else {
             sentMessageMap_Group.get(toGroupId).push($('.newsList li').last().prop("outerHTML"));
         }
@@ -600,15 +776,12 @@ var processMsgBox = {
     receiveSingleMsg: function (msg, fromUserId) {
         // 1. 设置消息框可见
         $('.conRight').css("display", "-webkit-box");
-        console.log(msg);
-        console.log(fromUserId);
         // 2. 把新消息放到暂存区$('.newsList-temp)，如果用户正处于与发出新消息的用户的消息框，则消息要回显
         $('.newsList-temp').append(msg);
         var $focusUserId = $(".conLeft .bg").find('span.hidden-userId');
         if ($focusUserId.length > 0 && $focusUserId.html() == fromUserId) {
             $('.newsList').append(msg);
         }
-
         // 3. 利用暂存区手动计算、调整新消息的宽度；
         var $answersDiv = $('.newsList-temp li').last().children("div").first();
         var fixWidth = 300; // 消息框本身的最长宽度

@@ -130,11 +130,11 @@
 <script type="text/javascript" src="static/js/chatroom.js"></script>
 <script type="text/javascript">
     var userId;
+    var userInfo
     var socket;
     var sentMessageMap;
     var sentMessageMap_Group;
     setUserInfo();
-    setSentMessageMap();
     if (!window.WebSocket) {
         window.WebSocket = window.MozWebSocket;
     }
