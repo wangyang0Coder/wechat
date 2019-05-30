@@ -19,6 +19,10 @@ IntelliJ IDEA 2017.3.6
 
 整个通信系统以Tomcat作为核心服务器运行，其下另开一个线程运行Netty WebSocket服务器，Tomcat服务器主要处理客户登录、个人信息管理等的HTTP类型请求（通常的业务类型），端口为8080，Netty WebSockt服务器主要处理用户消息通信的WebSocket类型请求，端口为3333
 
+后台结构展示![Image text](https://github.com/Left-Behind/wechat/blob/master/%E5%90%8E%E7%AB%AF%E7%BB%93%E6%9E%84.png)
+
+前端结构展示![Image text](https://github.com/Left-Behind/wechat/blob/master/%E5%89%8D%E7%AB%AF%E7%BB%93%E6%9E%84.png)
+
 
 单体聊天+文件发送演示 
 ![Image text](https://github.com/Left-Behind/wechat/blob/master/%E5%8D%95%E4%BD%93%E8%81%8A%E5%A4%A9%2B%E6%96%87%E4%BB%B6%E5%8F%91%E9%80%81.gif)
