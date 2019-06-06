@@ -30,17 +30,17 @@ private String groupAvatarUrl;
 private List<UserInfo> members;
 GROUP是数据库关键字不能用
  */
-CREATE TABLE GROUP_ (
+CREATE TABLE group_ (
   groupId int(11) NOT NULL AUTO_INCREMENT,
   groupName varchar(255),
   groupAvatarUrl varchar(255),
   PRIMARY KEY (groupId)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO GROUP_ VALUES (1,'葬爱家族','非主流');
-INSERT INTO GROUP_ VALUES (2,'帝国の','Japen');
-INSERT INTO GROUP_ VALUES (3,'少林寺','达摩老祖');
-insert into GROUP_ (groupName,groupAvatarUrl) VALUES ('Test','test');
+INSERT INTO group_ VALUES (1,'葬爱家族','static/img/avatar/葬爱家族.jpg');
+INSERT INTO group_ VALUES (2,'帝国の','static/img/avatar/帝国の.jpg');
+INSERT INTO group_ VALUES (3,'少林寺','static/img/avatar/少林寺.jpg');
+insert into group_ (groupName,groupAvatarUrl) VALUES ('Test','test');
 
 CREATE TABLE  belong(
   id int(11) NOT NULL AUTO_INCREMENT,

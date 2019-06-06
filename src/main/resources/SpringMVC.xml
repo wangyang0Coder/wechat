@@ -37,6 +37,13 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
         <property name="order" value="0"/>
     </bean>
+    <!-- 用户认证拦截器 防止直接登入到聊天室  这个要放在上面否则可以直接访问 chatroom.html-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/chatroom/**"/>
+            <bean class="web.interceptor.UserAuthInteceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!-- 设置不拦截静态文件 -->
     <mvc:resources location="/WEB-INF/views/" mapping="/WEB-INF/views/**"/>
     <mvc:resources location="/static/" mapping="/static/**/**"/>
@@ -68,13 +75,7 @@
             </list>
         </property>
     </bean>
-    <!-- 用户认证拦截器 防止直接登入到聊天室-->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/chatroom/**"/>
-            <bean class="web.interceptor.UserAuthInteceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+
     <!-- 配置文件上传 -->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

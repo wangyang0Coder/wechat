@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface MessageInfoMapper {
 
-    @Insert("insert into message (fromUserId,toUserId,toGroupId,content,type,fileUrl,originalFilename,fileSize) values(#{fromUserId},#{toUserId},#{toGroupId},#{content},#{type},#{fileUrl},#{originalFilename},#{fileSize})")
+    @Insert("insert into message (fromUserId,toUserId,toGroupId,content,type,fileUrl,originalFilename,fileSize) values(#{fromUserId,jdbcType=INTEGER },#{toUserId,jdbcType=INTEGER},#{toGroupId,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{fileUrl,jdbcType=VARCHAR},#{originalFilename,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR})")
     public void insert(MessageInfo messageInfo);
 
     @Select("select * from message where fromUserId=#{id} and toUserId!=0 or toUserId=#{id} and fromUserId!=0")

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.MyBatisUtil;
+import util.MyBatisUtil_Oracle;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class TestMyBatis_Message {
     */
     @Test
     public void insert(){
-        SqlSession session= MyBatisUtil.getSesssion();
+        SqlSession session= MyBatisUtil_Oracle.getSesssion();
         MessageInfoMapper mapper=session.getMapper(MessageInfoMapper.class);
         MessageInfo messageInfo=new MessageInfo();
         messageInfo.setFromUserId(1);

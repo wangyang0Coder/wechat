@@ -19,6 +19,9 @@ public class UserInfo {
     private List<MessageInfo> messageList;
 
 
+    public UserInfo() {
+    }
+
     public List<MessageInfo> getMessageList() {
         return messageList;
     }
@@ -35,13 +38,6 @@ public class UserInfo {
         this.email = email;
     }
 
-    public UserInfo(String userName, String password, String avatarUrl, String email) {
-
-        this.userName = userName;
-        this.password = password;
-        this.avatarUrl = avatarUrl;
-        this.email = email;
-    }
     /*public UserInfo(int userId, String userName, String password, String avatarUrl) {
         this.userId = userId;
         this.userName = userName;
@@ -49,7 +45,11 @@ public class UserInfo {
         this.avatarUrl = avatarUrl;
     }*/
 
-    public UserInfo() {
+    public UserInfo(String username, String password, String avatarShow, String mail) {
+        this.userName = username;
+        this.password = password;
+        this.avatarUrl = avatarShow;
+        this.email=mail;
     }
 
     public UserInfo(String userName, String password) {

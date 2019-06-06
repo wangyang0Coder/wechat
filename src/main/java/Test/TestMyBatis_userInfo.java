@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.MyBatisUtil;
+import util.MyBatisUtil_Oracle;
 
 import java.util.List;
 
@@ -23,14 +24,10 @@ public class TestMyBatis_userInfo {
     private static Logger logger = LoggerFactory.getLogger(TestMyBatis_userInfo.class.getName());
     @Test
     public void Test_insert(){
-        UserInfo user=new UserInfo();
-        user.setUserName("龙傲天");
-        user.setPassword("123");
-        user.setAvatarUrl("小龙");
-        SqlSession session= MyBatisUtil.getSesssion();
+        UserInfo user=new UserInfo("兄弟萌","sdfss","sdfdsf","sdfdsf");
+        SqlSession session= MyBatisUtil_Oracle.getSesssion();
         UserInfoMapper userInfoMapper=session.getMapper(UserInfoMapper.class);
         userInfoMapper.insert(user);
-        Test_ListAll();
     }
     @Test
     public void Test_delete(){
@@ -88,6 +85,16 @@ public class TestMyBatis_userInfo {
             logger.info(m.getContent());
         }
 
+    }
+    @Test
+    public void Test_Oracle_List(){
+        SqlSession session= MyBatisUtil_Oracle.getSesssion();
+        UserInfoMapper userInfoMapper=session.getMapper(UserInfoMapper.class);
+        List<UserInfo> list=userInfoMapper.listAll();
+        for(UserInfo c:list)
+        {
+            System.out.println(c.totoString());
+        }
     }
 
 }

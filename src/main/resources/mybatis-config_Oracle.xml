@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 根标签 -->
+<configuration>
+    <!-- 类型别名-->
+    <typeAliases>
+        <package name="model.po"/>
+    </typeAliases>
+    <!-- 设置一个默认的连接环境信息 -->
+    <environments default="Oracle_developer">
+        <!-- 连接环境信息，取一个任意唯一的名字 -->
+        <environment id="Oracle_developer">
+            <!-- mybatis使用jdbc事务管理方式 -->
+            <transactionManager type="jdbc"/>
+            <!-- mybatis使用连接池方式来获取连接 -->
+            <dataSource type="pooled">
+                <!-- 配置与数据库交互的4个必要属性 -->
+                <property name="driver" value="oracle.jdbc.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@106.15.188.67:1521:helowin" />
+                <property name="username" value="Azhu" />
+                <property name="password" value="123456" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--<mapper resource="mapper/UserInfoMapper.xml"/>-->
+        <mapper class="model.mapper.UserInfoMapper"/>
+        <mapper class="model.mapper.BelongMapper"/>
+        <mapper class="model.mapper.GroupInfoMapper"/>
+        <mapper class="model.mapper.ContactMapper"/>
+        <mapper class="model.mapper.MessageInfoMapper"/>
+    </mappers>
+</configuration>

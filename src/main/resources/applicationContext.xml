@@ -5,9 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <context:annotation-config />
+    <context:annotation-config/>
     <!-- 注册 @Component，@Service，@Reposity到Spring容器，同时扫描 @PostConstruct，@PreDestroy -->
-    <context:component-scan base-package="service" />
+    <context:component-scan base-package="service"/>
     <context:component-scan base-package="common"/>
     <context:component-scan base-package="model.mapper"/>
 
@@ -16,43 +16,66 @@
     <!-- 配置数据库连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 配置与数据库交互的4个必要属性 -->
-       <property name="driverClassName" value="${jdbc.driver}"/>
-         <!--这里真的有大问题
-         com.alibaba.druid.pool.DruidDataSource                     ====》driverClassName  用这个driver不会爆红，但是会有不能注入的问题
-         org.springframework.jdbc.datasource.DriverManagerDataSource===》driver-->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <!--这里真的有大问题
+        com.alibaba.druid.pool.DruidDataSource                     ====》driverClassName  用这个driver不会爆红，但是会有不能注入的问题
+        org.springframework.jdbc.datasource.DriverManagerDataSource===》driver-->
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
 
         <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="1" />
-        <property name="minIdle" value="1" />
-        <property name="maxActive" value="20" />
+        <property name="initialSize" value="1"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="20"/>
 
         <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="60000" />
+        <property name="maxWait" value="60000"/>
 
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
 
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
 
-        <property name="validationQuery" value="SELECT 1" />
-        <property name="testWhileIdle" value="true" />
-        <property name="testOnBorrow" value="false" />
-        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
 
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-        <property name="poolPreparedStatements" value="true" />
+        <property name="poolPreparedStatements" value="true"/>
         <property name="maxPoolPreparedStatementPerConnectionSize"
-                  value="20" />
+                  value="20"/>
+    </bean>
+
+    <bean id="dataSource_Oracle" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--配置连接池属性-->
+        <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
+
+        <!-- 基本属性 url、user、password -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@106.15.188.67:1521:helowin"/>
+        <property name="user" value="Azhu"/>
+        <property name="password" value="123456"/>
+
+        <!--c3p0私有属性-->
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+        <!--关闭连接后不自动commit-->
+        <property name="autoCommitOnClose" value="false"/>
+
+        <!--获取连接超时时间-->
+        <property name="checkoutTimeout" value="1000"/>
+        <!--当获取连接失败重试次数-->
+        <property name="acquireRetryAttempts" value="2"/>
+
     </bean>
 
     <!--Mybatis的SessionFactory配置-->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="typeAliasesPackage" value="model.po" />
-        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="model.po"/>
+        <property name="dataSource" ref="dataSource_Oracle"/>
+
         <!--<property name="mapperLocations" value="classpath:mapper/*.xml"/>-->
     </bean>
 
